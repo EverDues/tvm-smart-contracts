@@ -1,0 +1,180 @@
+{
+	"ABI version": 2,
+	"version": "2.2",
+	"header": ["pubkey", "time", "expire"],
+	"functions": [
+		{
+			"name": "constructor",
+			"inputs": [
+			],
+			"outputs": [
+			]
+		},
+		{
+			"name": "transferOwnership",
+			"inputs": [
+				{"name":"newOwner","type":"address"},
+				{"name":"remainingGasTo","type":"address"}
+			],
+			"outputs": [
+			]
+		},
+		{
+			"name": "acceptOwnership",
+			"inputs": [
+				{"name":"remainingGasTo","type":"address"}
+			],
+			"outputs": [
+			]
+		},
+		{
+			"name": "subscriptionVersion",
+			"inputs": [
+				{"name":"answerId","type":"uint32"}
+			],
+			"outputs": [
+				{"name":"value0","type":"uint32"}
+			]
+		},
+		{
+			"name": "platformCode",
+			"inputs": [
+				{"name":"answerId","type":"uint32"}
+			],
+			"outputs": [
+				{"name":"value0","type":"cell"}
+			]
+		},
+		{
+			"name": "subscriptionCode",
+			"inputs": [
+				{"name":"answerId","type":"uint32"}
+			],
+			"outputs": [
+				{"name":"value0","type":"cell"}
+			]
+		},
+		{
+			"name": "subscriptionPlanCode",
+			"inputs": [
+				{"name":"answerId","type":"uint32"}
+			],
+			"outputs": [
+				{"name":"value0","type":"cell"}
+			]
+		},
+		{
+			"name": "setSubscriptionCode",
+			"inputs": [
+				{"name":"code","type":"cell"}
+			],
+			"outputs": [
+			]
+		},
+		{
+			"name": "setSubscriptionPlanCode",
+			"inputs": [
+				{"name":"code","type":"cell"}
+			],
+			"outputs": [
+			]
+		},
+		{
+			"name": "rootOwner",
+			"inputs": [
+				{"name":"answerId","type":"uint32"}
+			],
+			"outputs": [
+				{"name":"value0","type":"address"}
+			]
+		},
+		{
+			"name": "subscriptionPlanVersion",
+			"inputs": [
+				{"name":"answerId","type":"uint32"}
+			],
+			"outputs": [
+				{"name":"value0","type":"uint32"}
+			]
+		},
+		{
+			"name": "requestUpgradeSubscriptionCode",
+			"inputs": [
+				{"name":"currentVersion","type":"uint32"},
+				{"name":"owner","type":"address"},
+				{"name":"tip3_root","type":"address"},
+				{"name":"amount","type":"uint128"},
+				{"name":"period","type":"uint32"},
+				{"name":"remainingGasTo","type":"address"}
+			],
+			"outputs": [
+			]
+		},
+		{
+			"name": "requestUpgradeSubscriptionPlan",
+			"inputs": [
+				{"name":"currentVersion","type":"uint32"},
+				{"name":"owner","type":"address"},
+				{"name":"tip3_root","type":"address"},
+				{"name":"amount","type":"uint128"},
+				{"name":"period","type":"uint32"},
+				{"name":"remainingGasTo","type":"address"},
+				{"name":"upgrade_params","type":"cell"}
+			],
+			"outputs": [
+			]
+		},
+		{
+			"name": "subscriptionPlanOf",
+			"inputs": [
+				{"name":"answerId","type":"uint32"},
+				{"name":"owner","type":"address"},
+				{"name":"amount","type":"uint128"},
+				{"name":"period","type":"uint32"},
+				{"name":"tip3_root","type":"address"}
+			],
+			"outputs": [
+				{"name":"value0","type":"address"}
+			]
+		},
+		{
+			"name": "deploySubscriptionPlan",
+			"inputs": [
+				{"name":"answerId","type":"uint32"},
+				{"name":"amount","type":"uint128"},
+				{"name":"period","type":"uint32"},
+				{"name":"tip3_root","type":"address"},
+				{"name":"deploySubscriptionPlanValue","type":"uint128"}
+			],
+			"outputs": [
+				{"name":"subscriptionPlan","type":"address"}
+			]
+		},
+		{
+			"name": "sendSurplusGas",
+			"inputs": [
+				{"name":"to","type":"address"}
+			],
+			"outputs": [
+			]
+		}
+	],
+	"data": [
+		{"key":1,"name":"platformCode_","type":"cell"},
+		{"key":2,"name":"rootOwner_","type":"address"}
+	],
+	"events": [
+	],
+	"fields": [
+		{"name":"_pubkey","type":"uint256"},
+		{"name":"_timestamp","type":"uint64"},
+		{"name":"_constructorFlag","type":"bool"},
+		{"name":"platformCode_","type":"cell"},
+		{"name":"rootOwner_","type":"address"},
+		{"name":"newOwner_","type":"address"},
+		{"name":"subscriptionCode_","type":"cell"},
+		{"name":"subscriptionPlanCode_","type":"cell"},
+		{"name":"subscriptionVersion_","type":"uint32"},
+		{"name":"subscriptionPlanVersion_","type":"uint32"}
+	]
+}

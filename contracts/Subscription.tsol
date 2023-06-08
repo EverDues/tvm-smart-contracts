@@ -1,0 +1,318 @@
+pragma ever-solidity ^0.62.0;
+
+pragma AbiHeader expire;
+pragma AbiHeader pubkey;
+
+import "./libraries/Errors.tsol";
+import "./libraries/Gas.tsol";
+import "./libraries/MsgFlag.tsol";
+import "./libraries/SubscriptionStatus.tsol";
+import "broxus-ton-tokens-contracts/contracts/interfaces/ITokenRoot.tsol";
+import "broxus-ton-tokens-contracts/contracts/interfaces/IAllowanceTokenWallet.tsol";
+import "broxus-ton-tokens-contracts/contracts/interfaces/ITokenWallet.tsol";
+import "./interfaces/ISubscriptionPlan.tsol";
+struct paymentDetails {
+    address tip3_root;
+    address recipient;
+    uint32 period;
+    uint128 amount;
+    uint32 payment_timestamp;
+    uint32 execution_timestamp;
+    uint8 status;
+    TvmCell payload;
+}
+
+
+contract Subscription {
+    paymentDetails public subscription;
+    uint32 constant preprocessing_window = 360;
+    uint32 nonce;
+	address subscription_tip3_wallet;
+    address _owner;
+    address owner_tip3_wallet;
+    address root;
+	TvmCell platform_code;
+	TvmCell _platform_params;
+	uint32 current_version;
+	uint8 type_id;
+
+    modifier onlyRoot() {
+         require(root.value != 0 && root == msg.sender, Errors.NOT_OWNER);
+        _;
+    }
+    modifier onlyOwner() {
+         require(_owner.value != 0 && _owner == msg.sender, Errors.NOT_OWNER);
+        _;
+    }
+	modifier onlyWallet() {
+		require(subscription_tip3_wallet.value != 0 && subscription_tip3_wallet == msg.sender, Errors.NOT_OWNER);
+		_;
+	}
+    constructor() public {
+		revert();
+	}
+
+    function acceptSubscriptionUpgrade(TvmCell code, uint32 version, address remainingGasTo,
+		TvmCell upgrade_params) external onlyRoot {
+		TvmCell contract_params;
+		TvmCell data = abi.encode(
+			root,
+			remainingGasTo,
+			current_version,
+			version,
+			type_id,
+			platform_code,
+			_platform_params,
+			contract_params,
+            upgrade_params
+		);
+		tvm.setcode(code);
+		tvm.setCurrentCode(code);
+		onCodeUpgrade(data);        
+    }
+
+	function onCodeUpgrade(TvmCell upgrade_data) private {
+		tvm.rawReserve(_reserve(), 0);
+		tvm.resetStorage();
+		address send_gas_to;
+		uint32 old_version;
+		TvmCell contract_params;
+		(
+			root,
+			send_gas_to,
+			old_version,
+			current_version,
+			type_id,
+			platform_code,
+			_platform_params,
+			contract_params
+		) = abi.decode(
+			upgrade_data,
+			(
+				address,
+				address,
+				uint32,
+				uint32,
+				uint8,
+				TvmCell,
+				TvmCell,
+				TvmCell
+			)
+		);
+		if (old_version == 0) {
+            nonce = abi.decode(_platform_params, (uint32));
+            (_owner, subscription.recipient, subscription.amount, subscription.period, subscription.tip3_root, subscription.payload) = abi.decode(contract_params, (address, address, uint128, uint32, address,TvmCell));
+    		ITokenRoot(subscription.tip3_root).deployWallet{
+                value: 0,
+                bounce: false,
+                flag: MsgFlag.ALL_NOT_RESERVED,
+                callback: Subscription.onDeployWallet
+		    }(address(this), Gas.DEPLOY_EMPTY_WALLET_GRAMS);
+        } else if (old_version > 0) {
+            (_owner, subscription.recipient, subscription.amount, subscription.period, subscription.tip3_root, subscription.payload) = abi.decode(contract_params, (address, address, uint128, uint32, address, TvmCell));
+			TvmCell upgrade_params;
+			if (!upgrade_params.toSlice().empty()) {
+				// parse upgrade data
+			}
+			send_gas_to.transfer({
+				value: 0,
+				bounce: false,
+				flag: MsgFlag.ALL_NOT_RESERVED + MsgFlag.IGNORE_ERRORS
+			});
+		}
+	}
+
+
+	function cancel(address send_gas_to) external {
+		selfdestruct(send_gas_to);
+	}
+
+	function executeSubscription(address remainingGasTo) public onlyRoot {
+        require(subscription_tip3_wallet != address(0), 11111);
+		require(
+			subscription.status != SubscriptionStatus.STATUS_STOPPED,
+			Errors.SUBSCRIPTION_IS_STOPPED
+		);
+		tvm.rawReserve(_reserve(), 0);
+        if (subscription.period != 0) {
+			if (subscription.payment_timestamp == 0 || now > (subscription.payment_timestamp - preprocessing_window)) {
+				uint8 subcr_status = checkSubscriptionStatus();
+				require(subcr_status != SubscriptionStatus.STATUS_ACTIVE,
+					Errors.error_subscription_already_executed
+				);
+				if (subcr_status == SubscriptionStatus.STATUS_PROCESSING) {
+					revert(Errors.error_subscription_already_executed);
+				}
+				executeSubscription_(remainingGasTo);
+			} else {
+				revert(Errors.error_subscription_status_already_active);
+			}
+		}
+	}
+
+	function executeSubscription_(address remainingGasTo) private {
+		subscription.execution_timestamp = uint32(now);
+        subscription.status = SubscriptionStatus.STATUS_PROCESSING;
+		TvmCell payload;
+        IAllowanceTokenWallet(owner_tip3_wallet).transferFrom{
+                value: 0,
+                bounce: true,
+                flag: MsgFlag.ALL_NOT_RESERVED
+        }(
+            subscription.amount,
+            0, 
+            remainingGasTo,
+            true,
+            payload
+        );
+	}
+
+	function stopSubscription(address remainingGasTo) external onlyOwner {
+		tvm.rawReserve(_reserve(), 0);
+		subscription.status = SubscriptionStatus.STATUS_STOPPED;
+		remainingGasTo.transfer({
+			value: 0,
+			bounce: false,
+			flag: MsgFlag.ALL_NOT_RESERVED
+		});
+	}
+
+	function resumeSubscription(address remainingGasTo) external onlyOwner {
+		tvm.rawReserve(_reserve(), 0);
+		subscription.status = SubscriptionStatus.STATUS_NONACTIVE;
+		remainingGasTo.transfer({
+			value: 0,
+			bounce: false,
+			flag: MsgFlag.ALL_NOT_RESERVED
+		});
+	}
+
+    function checkSubscriptionStatus() public view returns (uint8) {
+        // Calculate these values once to save gas
+        uint256 currentTime = now;
+        uint256 paymentTimestamp = subscription.payment_timestamp;
+        uint8 status = subscription.status;
+
+        if (status == SubscriptionStatus.STATUS_PROCESSING) {
+            return SubscriptionStatus.STATUS_PROCESSING;
+        }       
+
+        // Check conditions
+        bool isSubscriptionActive = (status != SubscriptionStatus.STATUS_STOPPED);
+        bool isBeforePaymentTime = currentTime < paymentTimestamp;
+        bool isAfterPreprocessingWindowStart = currentTime > (paymentTimestamp - preprocessing_window);
+        bool isAfterPaymentTime = currentTime > paymentTimestamp;
+
+
+
+        if (isSubscriptionActive) {
+            if (isBeforePaymentTime && isAfterPreprocessingWindowStart) {
+                return SubscriptionStatus.STATUS_EXECUTE;
+            } 
+            if (isBeforePaymentTime) {
+                return SubscriptionStatus.STATUS_ACTIVE;
+            } 
+            return SubscriptionStatus.STATUS_NONACTIVE;
+        } 
+
+        if (isAfterPaymentTime) {
+            return SubscriptionStatus.STATUS_STOPPED;
+        } 
+        
+        return SubscriptionStatus.STATUS_STOPPED;
+    }
+
+	function onDeployWallet(
+		address subscription_wallet_
+	) external { // only TIP3 Root
+        subscription_tip3_wallet = subscription_wallet_;
+		ITokenRoot(subscription.tip3_root).walletOf{
+			value: 0,
+			bounce: false,
+			flag: MsgFlag.ALL_NOT_RESERVED,
+			callback: Subscription.onWalletOf
+		}(_owner);
+	}
+
+    function onWalletOf(address wallet_address) external { // onlyTIP3Root
+        owner_tip3_wallet = wallet_address;
+    }
+
+    function _reserve() internal pure returns (uint128) {
+        return math.max(address(this).balance - msg.value, _targetBalance());
+    }
+
+    function _targetBalance()  internal pure returns (uint128) {
+        return Gas.SUBSCRIPTION_INITIAL_BALANCE;
+    }
+
+    function onAcceptTokensAllowance(
+        address tokenRoot,
+        uint128 amount,
+        uint128 recoveryRate,
+        address sender,
+        address remainingGasTo,
+        TvmCell /*payload*/
+    ) external { // only owner_tip3_wallet
+        tvm.rawReserve(_reserve(), 0);
+        require(tokenRoot == subscription.tip3_root || subscription.tip3_root == address(0), 11111);
+        require(subscription.amount == amount, 11111);
+        require(sender == _owner, 11111);
+        require(subscription.period >= (amount/recoveryRate), 11111);
+        executeSubscription(remainingGasTo);
+    }
+
+	function requestSubscriptionCodeUpdate(address remainingGasTo) external view {
+        tvm.rawReserve(_reserve(), 0);
+        ISubscriptionPlan(root).requestUpgradeSubscription{
+            value: 0, flag: MsgFlag.ALL_NOT_RESERVED, bounce: false 
+        }(nonce, current_version, remainingGasTo);
+    }
+
+	function onAcceptTokensTransfer(
+		address tokenRoot,
+		uint128 amount,
+		address /*sender*/,
+		address /*senderWallet*/,
+		address remainingGasTo,
+		TvmCell /*payload*/
+	) external onlyWallet {
+		require(tokenRoot == subscription.tip3_root, Errors.error_message_sender_is_not_currency_root);
+		require(
+			amount >= subscription.amount,
+			Errors.error_message_low_value
+		);
+		tvm.rawReserve(
+			math.max(
+				Gas.SUBSCRIPTION_INITIAL_BALANCE,
+				address(this).balance - msg.value
+			),
+			2
+		);
+        ITokenWallet(msg.sender).transfer{
+            value: 0,
+            flag: MsgFlag.ALL_NOT_RESERVED
+        }(
+            amount,
+            subscription.recipient,
+            0,
+            remainingGasTo,
+            false,
+            subscription.payload 
+        );
+		if (subscription.payment_timestamp == 0 || checkSubscriptionStatus() == SubscriptionStatus.STATUS_NONACTIVE || now > subscription.payment_timestamp) {
+			subscription.payment_timestamp = uint32(now) + subscription.period;
+		} else {
+			subscription.payment_timestamp =
+				subscription.payment_timestamp +
+				subscription.period;
+		}
+		subscription.status = SubscriptionStatus.STATUS_ACTIVE;
+	}
+
+    onBounce(TvmSlice slice) external {
+        if (slice.decode(uint32) == tvm.functionId(IAllowanceTokenWallet.transferFrom)) {
+            subscription.status = SubscriptionStatus.STATUS_NONACTIVE;
+        }
+	}
+}

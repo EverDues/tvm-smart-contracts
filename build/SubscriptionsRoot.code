@@ -1,0 +1,1776 @@
+.version sol 0.62.0
+
+.macro constructor
+DROP
+GETGLOB 2
+ISNULL
+IFREF {
+	CALL $c4_to_c7_with_init_storage$
+}
+GETGLOB 6
+THROWIF 51
+ENDS
+.loc ../contracts/SubscriptionsRoot.tsol, 22
+CALLREF {
+	CALL $_targetBalance_81a00f03_internal_macro$
+}
+PUSHINT 0
+RAWRESERVE
+.loc ../contracts/SubscriptionsRoot.tsol, 0
+CALLREF {
+	CALL $c7_to_c4$
+}
+THROW 0
+
+.macro transferOwnership
+DROP
+GETGLOB 6
+THROWIFNOT 76
+GETGLOB 2
+ISNULL
+IFREF {
+	CALL $c4_to_c7$
+}
+.loc ../contracts/SubscriptionsRoot.tsol, 25
+OVER
+PUSHCONT {
+	LDREF
+	ENDS
+	CTOS
+}
+IF
+LDMSGADDR
+LDREF
+ENDS
+CTOS
+LDMSGADDR
+ENDS
+.loc ../contracts/SubscriptionsRoot.tsol, 0
+CALLREF {
+	CALL $transferOwnership_6d435421_internal_macro$
+}
+DROP
+CALLREF {
+	CALL $c7_to_c4$
+}
+THROW 0
+
+.macro transferOwnership_6d435421_internal_macro
+.loc ../contracts/SubscriptionsRoot.tsol, 233
+GETGLOB 11
+PARSEMSGADDR
+INDEX 3
+PLDU 256
+NEQINT 0
+GETGLOB 11
+GETGLOB 9
+SDEQ
+AND
+THROWIFNOT 102
+.loc ../contracts/SubscriptionsRoot.tsol, 32
+CALLREF {
+	CALL $_reserve_413ab4a8_internal_macro$
+}
+PUSHINT 0
+RAWRESERVE
+.loc ../contracts/SubscriptionsRoot.tsol, 34
+SWAP
+SETGLOB 12
+.loc ../contracts/SubscriptionsRoot.tsol, 35
+NEWC
+STSLICECONST x42_
+STSLICE
+PUSHINT 111
+STZEROES
+ENDC
+PUSHPOW2 7
+ADDCONST 2
+UFITS 8
+SENDRAWMSG
+.loc ../contracts/SubscriptionsRoot.tsol, 0
+
+.macro acceptOwnership
+DROP
+GETGLOB 6
+THROWIFNOT 76
+GETGLOB 2
+ISNULL
+IFREF {
+	CALL $c4_to_c7$
+}
+.loc ../contracts/SubscriptionsRoot.tsol, 42
+OVER
+PUSHCONT {
+	LDREF
+	ENDS
+	CTOS
+}
+IF
+LDMSGADDR
+ENDS
+.loc ../contracts/SubscriptionsRoot.tsol, 0
+CALLREF {
+	CALL $acceptOwnership_51710e45_internal_macro$
+}
+DROP
+CALLREF {
+	CALL $c7_to_c4$
+}
+THROW 0
+
+.macro acceptOwnership_51710e45_internal_macro
+.loc ../contracts/SubscriptionsRoot.tsol, 47
+GETGLOB 9
+GETGLOB 12
+SDEQ
+THROWIFNOT 1000
+.loc ../contracts/SubscriptionsRoot.tsol, 48
+CALLREF {
+	CALL $_reserve_413ab4a8_internal_macro$
+}
+PUSHINT 0
+RAWRESERVE
+.loc ../contracts/SubscriptionsRoot.tsol, 50
+GETGLOB 9
+SETGLOB 11
+.loc ../contracts/SubscriptionsRoot.tsol, 51
+PUSHREFSLICE {
+	.blob x8000000000000000000000000000000000000000000000000000000000000000001_
+}
+SETGLOB 12
+.loc ../contracts/SubscriptionsRoot.tsol, 52
+NEWC
+STSLICECONST x42_
+STSLICE
+PUSHINT 111
+STZEROES
+ENDC
+PUSHPOW2 7
+ADDCONST 2
+UFITS 8
+SENDRAWMSG
+.loc ../contracts/SubscriptionsRoot.tsol, 0
+
+.macro subscriptionVersion
+DROP
+GETGLOB 6
+THROWIFNOT 76
+GETGLOB 2
+ISNULL
+IFREF {
+	CALL $c4_to_c7$
+}
+.loc ../contracts/SubscriptionsRoot.tsol, 59
+LDU 32
+GETGLOB 4
+ROT
+SETINDEXQ 5
+SETGLOB 4
+ENDS
+.loc ../contracts/SubscriptionsRoot.tsol, 0
+CALLREF {
+	CALL $subscriptionVersion_fa3aab26_internal_macro$
+}
+OVER
+PUSHCONT {
+	PUSH S3
+	CTOS
+	LDU 2
+	LDMSGADDR
+	DROP
+	NIP
+	NEWC
+	STSLICECONST xc
+	STSLICE
+	PUSHINT 3717876284
+	STUR 130
+	STU 32
+	ENDC
+	PUSHINT 0
+}
+PUSHCONT {
+	GETGLOB 4
+	DUP
+	INDEX 3
+	OVER
+	THIRD
+	GETGLOB 9
+	ROLL 3
+	SECOND
+	NEWC
+	STSLICECONST x2_
+	STI 1
+	STSLICECONST x1_
+	STSLICE
+	SWAP
+	STGRAMS
+	STDICT
+	PUSHINT 106
+	STZEROES
+	GETGLOB 4
+	INDEX 5
+	STUR 32
+	STU 32
+	ENDC
+	GETGLOB 4
+	INDEX 4
+}
+IFELSE
+SENDRAWMSG
+IFREF {
+	CALL $upd_only_time_in_c4$
+}
+THROW 0
+
+.macro subscriptionVersion_fa3aab26_internal_macro
+.loc ../contracts/SubscriptionsRoot.tsol, 60
+GETGLOB 4
+PUSHINT 0
+SETINDEXQ 2
+PUSHINT 64
+SETINDEXQ 4
+FALSE
+SETINDEXQ 1
+SETGLOB 4
+GETGLOB 15
+.loc ../contracts/SubscriptionsRoot.tsol, 0
+
+.macro platformCode
+DROP
+GETGLOB 6
+THROWIFNOT 76
+GETGLOB 2
+ISNULL
+IFREF {
+	CALL $c4_to_c7$
+}
+.loc ../contracts/SubscriptionsRoot.tsol, 63
+LDU 32
+GETGLOB 4
+ROT
+SETINDEXQ 5
+SETGLOB 4
+ENDS
+.loc ../contracts/SubscriptionsRoot.tsol, 0
+CALLREF {
+	CALL $platformCode_f695c496_internal_macro$
+}
+OVER
+PUSHCONT {
+	PUSH S3
+	CTOS
+	LDU 2
+	LDMSGADDR
+	DROP
+	NIP
+	NEWC
+	STSLICECONST xc
+	STSLICE
+	PUSHINT 2156232442
+	STUR 130
+	STREF
+	ENDC
+	PUSHINT 0
+}
+PUSHCONT {
+	GETGLOB 4
+	DUP
+	INDEX 3
+	OVER
+	THIRD
+	GETGLOB 9
+	ROLL 3
+	SECOND
+	NEWC
+	STSLICECONST x2_
+	STI 1
+	STSLICECONST x1_
+	STSLICE
+	SWAP
+	STGRAMS
+	STDICT
+	PUSHINT 106
+	STZEROES
+	GETGLOB 4
+	INDEX 5
+	STUR 32
+	STREF
+	ENDC
+	GETGLOB 4
+	INDEX 4
+}
+IFELSE
+SENDRAWMSG
+IFREF {
+	CALL $upd_only_time_in_c4$
+}
+THROW 0
+
+.macro platformCode_f695c496_internal_macro
+.loc ../contracts/SubscriptionsRoot.tsol, 64
+GETGLOB 4
+PUSHINT 0
+SETINDEXQ 2
+PUSHINT 64
+SETINDEXQ 4
+FALSE
+SETINDEXQ 1
+SETGLOB 4
+GETGLOB 10
+.loc ../contracts/SubscriptionsRoot.tsol, 0
+
+.macro subscriptionCode
+DROP
+GETGLOB 6
+THROWIFNOT 76
+GETGLOB 2
+ISNULL
+IFREF {
+	CALL $c4_to_c7$
+}
+.loc ../contracts/SubscriptionsRoot.tsol, 68
+LDU 32
+GETGLOB 4
+ROT
+SETINDEXQ 5
+SETGLOB 4
+ENDS
+.loc ../contracts/SubscriptionsRoot.tsol, 0
+CALLREF {
+	CALL $subscriptionCode_48480137_internal_macro$
+}
+OVER
+PUSHCONT {
+	PUSH S3
+	CTOS
+	LDU 2
+	LDMSGADDR
+	DROP
+	NIP
+	NEWC
+	STSLICECONST xc
+	STSLICE
+	PUSHINT 3735347818
+	STUR 130
+	STREF
+	ENDC
+	PUSHINT 0
+}
+PUSHCONT {
+	GETGLOB 4
+	DUP
+	INDEX 3
+	OVER
+	THIRD
+	GETGLOB 9
+	ROLL 3
+	SECOND
+	NEWC
+	STSLICECONST x2_
+	STI 1
+	STSLICECONST x1_
+	STSLICE
+	SWAP
+	STGRAMS
+	STDICT
+	PUSHINT 106
+	STZEROES
+	GETGLOB 4
+	INDEX 5
+	STUR 32
+	STREF
+	ENDC
+	GETGLOB 4
+	INDEX 4
+}
+IFELSE
+SENDRAWMSG
+IFREF {
+	CALL $upd_only_time_in_c4$
+}
+THROW 0
+
+.macro subscriptionCode_48480137_internal_macro
+.loc ../contracts/SubscriptionsRoot.tsol, 69
+GETGLOB 4
+PUSHINT 0
+SETINDEXQ 2
+PUSHINT 64
+SETINDEXQ 4
+FALSE
+SETINDEXQ 1
+SETGLOB 4
+GETGLOB 13
+.loc ../contracts/SubscriptionsRoot.tsol, 0
+
+.macro subscriptionPlanCode
+DROP
+GETGLOB 6
+THROWIFNOT 76
+GETGLOB 2
+ISNULL
+IFREF {
+	CALL $c4_to_c7$
+}
+.loc ../contracts/SubscriptionsRoot.tsol, 72
+LDU 32
+GETGLOB 4
+ROT
+SETINDEXQ 5
+SETGLOB 4
+ENDS
+.loc ../contracts/SubscriptionsRoot.tsol, 0
+CALLREF {
+	CALL $subscriptionPlanCode_d5507a31_internal_macro$
+}
+OVER
+PUSHCONT {
+	PUSH S3
+	CTOS
+	LDU 2
+	LDMSGADDR
+	DROP
+	NIP
+	NEWC
+	STSLICECONST xc
+	STSLICE
+	PUSHINT 3439108761
+	STUR 130
+	STREF
+	ENDC
+	PUSHINT 0
+}
+PUSHCONT {
+	GETGLOB 4
+	DUP
+	INDEX 3
+	OVER
+	THIRD
+	GETGLOB 9
+	ROLL 3
+	SECOND
+	NEWC
+	STSLICECONST x2_
+	STI 1
+	STSLICECONST x1_
+	STSLICE
+	SWAP
+	STGRAMS
+	STDICT
+	PUSHINT 106
+	STZEROES
+	GETGLOB 4
+	INDEX 5
+	STUR 32
+	STREF
+	ENDC
+	GETGLOB 4
+	INDEX 4
+}
+IFELSE
+SENDRAWMSG
+IFREF {
+	CALL $upd_only_time_in_c4$
+}
+THROW 0
+
+.macro subscriptionPlanCode_d5507a31_internal_macro
+.loc ../contracts/SubscriptionsRoot.tsol, 73
+GETGLOB 4
+PUSHINT 0
+SETINDEXQ 2
+PUSHINT 64
+SETINDEXQ 4
+FALSE
+SETINDEXQ 1
+SETGLOB 4
+GETGLOB 14
+.loc ../contracts/SubscriptionsRoot.tsol, 0
+
+.macro setSubscriptionCode
+DROP
+GETGLOB 6
+THROWIFNOT 76
+GETGLOB 2
+ISNULL
+IFREF {
+	CALL $c4_to_c7$
+}
+.loc ../contracts/SubscriptionsRoot.tsol, 76
+LDREF
+ENDS
+.loc ../contracts/SubscriptionsRoot.tsol, 0
+CALLREF {
+	CALL $setSubscriptionCode_287e32b7_internal_macro$
+}
+DROP
+CALLREF {
+	CALL $c7_to_c4$
+}
+THROW 0
+
+.macro setSubscriptionCode_287e32b7_internal_macro
+.loc ../contracts/SubscriptionsRoot.tsol, 233
+GETGLOB 11
+PARSEMSGADDR
+INDEX 3
+PLDU 256
+NEQINT 0
+GETGLOB 11
+GETGLOB 9
+SDEQ
+AND
+THROWIFNOT 102
+.loc ../contracts/SubscriptionsRoot.tsol, 77
+CALLREF {
+	CALL $_targetBalance_81a00f03_internal_macro$
+}
+PUSHINT 0
+RAWRESERVE
+.loc ../contracts/SubscriptionsRoot.tsol, 78
+SETGLOB 13
+.loc ../contracts/SubscriptionsRoot.tsol, 79
+GETGLOB 15
+INC
+UFITS 32
+SETGLOB 15
+.loc ../contracts/SubscriptionsRoot.tsol, 0
+
+.macro setSubscriptionPlanCode
+DROP
+GETGLOB 6
+THROWIFNOT 76
+GETGLOB 2
+ISNULL
+IFREF {
+	CALL $c4_to_c7$
+}
+.loc ../contracts/SubscriptionsRoot.tsol, 81
+LDREF
+ENDS
+.loc ../contracts/SubscriptionsRoot.tsol, 0
+CALLREF {
+	CALL $setSubscriptionPlanCode_a53c6f4f_internal_macro$
+}
+DROP
+CALLREF {
+	CALL $c7_to_c4$
+}
+THROW 0
+
+.macro setSubscriptionPlanCode_a53c6f4f_internal_macro
+.loc ../contracts/SubscriptionsRoot.tsol, 233
+GETGLOB 11
+PARSEMSGADDR
+INDEX 3
+PLDU 256
+NEQINT 0
+GETGLOB 11
+GETGLOB 9
+SDEQ
+AND
+THROWIFNOT 102
+.loc ../contracts/SubscriptionsRoot.tsol, 82
+CALLREF {
+	CALL $_targetBalance_81a00f03_internal_macro$
+}
+PUSHINT 0
+RAWRESERVE
+.loc ../contracts/SubscriptionsRoot.tsol, 83
+SETGLOB 14
+.loc ../contracts/SubscriptionsRoot.tsol, 84
+GETGLOB 16
+INC
+UFITS 32
+SETGLOB 16
+.loc ../contracts/SubscriptionsRoot.tsol, 0
+
+.macro rootOwner
+DROP
+GETGLOB 6
+THROWIFNOT 76
+GETGLOB 2
+ISNULL
+IFREF {
+	CALL $c4_to_c7$
+}
+.loc ../contracts/SubscriptionsRoot.tsol, 86
+LDU 32
+GETGLOB 4
+ROT
+SETINDEXQ 5
+SETGLOB 4
+ENDS
+.loc ../contracts/SubscriptionsRoot.tsol, 0
+CALLREF {
+	CALL $rootOwner_00ee220c_internal_macro$
+}
+OVER
+PUSHCONT {
+	PUSH S3
+	CTOS
+	LDU 2
+	LDMSGADDR
+	DROP
+	NIP
+	NEWC
+	STSLICECONST xc
+	STSLICE
+	PUSHINT 1
+	STUR 98
+	SWAP
+	NEWC
+	STSLICECONST xb65bb059
+	STSLICE
+	STBREFR
+	ENDC
+	PUSHINT 0
+}
+PUSHCONT {
+	GETGLOB 4
+	DUP
+	INDEX 3
+	OVER
+	THIRD
+	GETGLOB 9
+	ROLL 3
+	SECOND
+	NEWC
+	STSLICECONST x2_
+	STI 1
+	STSLICECONST x1_
+	STSLICE
+	SWAP
+	STGRAMS
+	STDICT
+	PUSHINT 1
+	STUR 106
+	SWAP
+	NEWC
+	GETGLOB 4
+	INDEX 5
+	STUR 32
+	STSLICE
+	STBREFR
+	ENDC
+	GETGLOB 4
+	INDEX 4
+}
+IFELSE
+SENDRAWMSG
+IFREF {
+	CALL $upd_only_time_in_c4$
+}
+THROW 0
+
+.macro rootOwner_00ee220c_internal_macro
+.loc ../contracts/SubscriptionsRoot.tsol, 87
+GETGLOB 4
+PUSHINT 0
+SETINDEXQ 2
+PUSHINT 64
+SETINDEXQ 4
+FALSE
+SETINDEXQ 1
+SETGLOB 4
+GETGLOB 11
+.loc ../contracts/SubscriptionsRoot.tsol, 0
+
+.macro subscriptionPlanVersion
+DROP
+GETGLOB 6
+THROWIFNOT 76
+GETGLOB 2
+ISNULL
+IFREF {
+	CALL $c4_to_c7$
+}
+.loc ../contracts/SubscriptionsRoot.tsol, 90
+LDU 32
+GETGLOB 4
+ROT
+SETINDEXQ 5
+SETGLOB 4
+ENDS
+.loc ../contracts/SubscriptionsRoot.tsol, 0
+CALLREF {
+	CALL $subscriptionPlanVersion_1f1cdfac_internal_macro$
+}
+OVER
+PUSHCONT {
+	PUSH S3
+	CTOS
+	LDU 2
+	LDMSGADDR
+	DROP
+	NIP
+	NEWC
+	STSLICECONST xc
+	STSLICE
+	PUSHINT 2924323019
+	STUR 130
+	STU 32
+	ENDC
+	PUSHINT 0
+}
+PUSHCONT {
+	GETGLOB 4
+	DUP
+	INDEX 3
+	OVER
+	THIRD
+	GETGLOB 9
+	ROLL 3
+	SECOND
+	NEWC
+	STSLICECONST x2_
+	STI 1
+	STSLICECONST x1_
+	STSLICE
+	SWAP
+	STGRAMS
+	STDICT
+	PUSHINT 106
+	STZEROES
+	GETGLOB 4
+	INDEX 5
+	STUR 32
+	STU 32
+	ENDC
+	GETGLOB 4
+	INDEX 4
+}
+IFELSE
+SENDRAWMSG
+IFREF {
+	CALL $upd_only_time_in_c4$
+}
+THROW 0
+
+.macro subscriptionPlanVersion_1f1cdfac_internal_macro
+.loc ../contracts/SubscriptionsRoot.tsol, 91
+GETGLOB 4
+PUSHINT 0
+SETINDEXQ 2
+PUSHINT 64
+SETINDEXQ 4
+FALSE
+SETINDEXQ 1
+SETGLOB 4
+GETGLOB 16
+.loc ../contracts/SubscriptionsRoot.tsol, 0
+
+.macro requestUpgradeSubscriptionCode
+DROP
+GETGLOB 6
+THROWIFNOT 76
+GETGLOB 2
+ISNULL
+IFREF {
+	CALL $c4_to_c7$
+}
+.loc ../contracts/SubscriptionsRoot.tsol, 94
+OVER
+PUSHCONT {
+	LDU 32
+	LDREF
+	ENDS
+	CTOS
+}
+PUSHCONT {
+	LDU 32
+}
+IFELSE
+LDMSGADDR
+LDREF
+ENDS
+CTOS
+LDMSGADDR
+LDU 128
+LDU 32
+LDREF
+ENDS
+CTOS
+LDMSGADDR
+ENDS
+.loc ../contracts/SubscriptionsRoot.tsol, 0
+CALLREF {
+	CALL $requestUpgradeSubscriptionCode_9ee770f7_internal_macro$
+}
+IFREF {
+	CALL $upd_only_time_in_c4$
+}
+THROW 0
+
+.macro requestUpgradeSubscriptionCode_9ee770f7_internal_macro
+.loc ../contracts/SubscriptionsRoot.tsol, 106
+GETGLOB 9
+BLKSWAP 4, 2
+ROT
+CALLREF {
+	CALL $_getExpectedSubscriptionPlanAddress_e3436496_internal_macro$
+}
+SDEQ
+THROWIFNOT 101
+.loc ../contracts/SubscriptionsRoot.tsol, 108
+CALLREF {
+	CALL $_reserve_413ab4a8_internal_macro$
+}
+PUSHINT 0
+RAWRESERVE
+.loc ../contracts/SubscriptionsRoot.tsol, 110
+SWAP
+GETGLOB 15
+EQUAL
+PUSHCONT {
+	.loc ../contracts/SubscriptionsRoot.tsol, 111
+	DUP
+	NEWC
+	STSLICECONST x62_
+	STSLICE
+	PUSHINT 111
+	STZEROES
+}
+PUSHCONT {
+	.loc ../contracts/SubscriptionsRoot.tsol, 113
+	DUP
+	GETGLOB 15
+	GETGLOB 13
+	GETGLOB 9
+	FALSE
+	NEWC
+	STSLICECONST x6_
+	STI 1
+	STSLICECONST x1_
+	STSLICE
+	PUSHINT 1
+	STUR 111
+	ROLLREV 3
+	NEWC
+	STSLICECONST x1c4b78d9
+	STREF
+	STU 32
+	STSLICE
+	STBREFR
+}
+IFELSE
+ENDC
+PUSHPOW2 7
+SENDRAWMSG
+.loc ../contracts/SubscriptionsRoot.tsol, 0
+DROP
+
+.globl	_targetBalance_81a00f03_internal
+.type	_targetBalance_81a00f03_internal, @function
+CALL $_targetBalance_81a00f03_internal_macro$
+
+.macro _targetBalance_81a00f03_internal_macro
+.loc ../contracts/SubscriptionsRoot.tsol, 126
+PUSHINT 1000000000
+.loc ../contracts/SubscriptionsRoot.tsol, 0
+
+.macro requestUpgradeSubscriptionPlan
+DROP
+GETGLOB 6
+THROWIFNOT 76
+GETGLOB 2
+ISNULL
+IFREF {
+	CALL $c4_to_c7$
+}
+.loc ../contracts/SubscriptionsRoot.tsol, 129
+OVER
+PUSHCONT {
+	LDU 32
+	LDREF
+	ENDS
+	CTOS
+}
+PUSHCONT {
+	LDU 32
+}
+IFELSE
+LDMSGADDR
+LDREF
+ENDS
+CTOS
+LDMSGADDR
+LDU 128
+LDU 32
+LDREF
+ENDS
+CTOS
+LDMSGADDR
+LDREF
+ENDS
+.loc ../contracts/SubscriptionsRoot.tsol, 0
+CALLREF {
+	CALL $requestUpgradeSubscriptionPlan_002e713e_internal_macro$
+}
+IFREF {
+	CALL $upd_only_time_in_c4$
+}
+THROW 0
+
+.macro requestUpgradeSubscriptionPlan_002e713e_internal_macro
+.loc ../contracts/SubscriptionsRoot.tsol, 141
+GETGLOB 9
+BLKSWAP 4, 3
+ROT
+CALLREF {
+	CALL $_getExpectedSubscriptionPlanAddress_e3436496_internal_macro$
+}
+SDEQ
+THROWIFNOT 101
+.loc ../contracts/SubscriptionsRoot.tsol, 143
+CALLREF {
+	CALL $_reserve_413ab4a8_internal_macro$
+}
+PUSHINT 0
+RAWRESERVE
+.loc ../contracts/SubscriptionsRoot.tsol, 145
+ROT
+GETGLOB 15
+EQUAL
+PUSHCONT {
+	.loc ../contracts/SubscriptionsRoot.tsol, 146
+	OVER
+	NEWC
+	STSLICECONST x62_
+	STSLICE
+	PUSHINT 111
+	STZEROES
+}
+PUSHCONT {
+	.loc ../contracts/SubscriptionsRoot.tsol, 148
+	PUSH2 S0, S1
+	GETGLOB 15
+	GETGLOB 13
+	GETGLOB 9
+	FALSE
+	NEWC
+	STSLICECONST x6_
+	STI 1
+	STSLICECONST x1_
+	STSLICE
+	PUSHINT 1
+	STUR 111
+	ROLLREV 4
+	NEWC
+	STSLICECONST x79acb708
+	STREF
+	STU 32
+	STSLICE
+	STREF
+	STBREFR
+}
+IFELSE
+ENDC
+PUSHPOW2 7
+SENDRAWMSG
+.loc ../contracts/SubscriptionsRoot.tsol, 0
+DROP2
+
+.macro subscriptionPlanOf
+DROP
+GETGLOB 6
+THROWIFNOT 76
+GETGLOB 2
+ISNULL
+IFREF {
+	CALL $c4_to_c7$
+}
+.loc ../contracts/SubscriptionsRoot.tsol, 160
+LDU 32
+GETGLOB 4
+ROT
+SETINDEXQ 5
+SETGLOB 4
+OVER
+PUSHCONT {
+	LDREF
+	ENDS
+	CTOS
+}
+IF
+LDMSGADDR
+LDU 128
+LDU 32
+LDREF
+ENDS
+CTOS
+LDMSGADDR
+ENDS
+.loc ../contracts/SubscriptionsRoot.tsol, 0
+CALLREF {
+	CALL $subscriptionPlanOf_0238055b_internal_macro$
+}
+OVER
+PUSHCONT {
+	PUSH S3
+	CTOS
+	LDU 2
+	LDMSGADDR
+	DROP
+	NIP
+	NEWC
+	STSLICECONST xc
+	STSLICE
+	PUSHINT 1
+	STUR 98
+	SWAP
+	NEWC
+	STSLICECONST xbf731987
+	STSLICE
+	STBREFR
+	ENDC
+	PUSHINT 0
+}
+PUSHCONT {
+	GETGLOB 4
+	DUP
+	INDEX 3
+	OVER
+	THIRD
+	GETGLOB 9
+	ROLL 3
+	SECOND
+	NEWC
+	STSLICECONST x2_
+	STI 1
+	STSLICECONST x1_
+	STSLICE
+	SWAP
+	STGRAMS
+	STDICT
+	PUSHINT 1
+	STUR 106
+	SWAP
+	NEWC
+	GETGLOB 4
+	INDEX 5
+	STUR 32
+	STSLICE
+	STBREFR
+	ENDC
+	GETGLOB 4
+	INDEX 4
+}
+IFELSE
+SENDRAWMSG
+IFREF {
+	CALL $upd_only_time_in_c4$
+}
+THROW 0
+
+.globl	subscriptionPlanOf_0238055b_internal
+.type	subscriptionPlanOf_0238055b_internal, @function
+CALL $subscriptionPlanOf_0238055b_internal_macro$
+
+.macro subscriptionPlanOf_0238055b_internal_macro
+.loc ../contracts/SubscriptionsRoot.tsol, 168
+GETGLOB 4
+PUSHINT 0
+SETINDEXQ 2
+PUSHINT 64
+SETINDEXQ 4
+FALSE
+SETINDEXQ 1
+SETGLOB 4
+CALLREF {
+	CALL $_getExpectedSubscriptionPlanAddress_e3436496_internal_macro$
+}
+.loc ../contracts/SubscriptionsRoot.tsol, 0
+
+.macro deploySubscriptionPlan
+DROP
+GETGLOB 6
+THROWIFNOT 76
+GETGLOB 2
+ISNULL
+IFREF {
+	CALL $c4_to_c7$
+}
+.loc ../contracts/SubscriptionsRoot.tsol, 171
+LDU 32
+GETGLOB 4
+ROT
+SETINDEXQ 5
+SETGLOB 4
+OVER
+PUSHCONT {
+	LDREF
+	ENDS
+	CTOS
+}
+IF
+LDU 128
+LDU 32
+LDMSGADDR
+LDU 128
+ENDS
+.loc ../contracts/SubscriptionsRoot.tsol, 0
+CALLREF {
+	CALL $deploySubscriptionPlan_a99a726f_internal_macro$
+}
+OVER
+PUSHCONT {
+	PUSH S3
+	CTOS
+	LDU 2
+	LDMSGADDR
+	DROP
+	NIP
+	NEWC
+	STSLICECONST xc
+	STSLICE
+	PUSHINT 1
+	STUR 98
+	SWAP
+	NEWC
+	STSLICECONST xeeb364fa
+	STSLICE
+	STBREFR
+	ENDC
+	PUSHINT 0
+}
+PUSHCONT {
+	GETGLOB 4
+	DUP
+	INDEX 3
+	OVER
+	THIRD
+	GETGLOB 9
+	ROLL 3
+	SECOND
+	NEWC
+	STSLICECONST x2_
+	STI 1
+	STSLICECONST x1_
+	STSLICE
+	SWAP
+	STGRAMS
+	STDICT
+	PUSHINT 1
+	STUR 106
+	SWAP
+	NEWC
+	GETGLOB 4
+	INDEX 5
+	STUR 32
+	STSLICE
+	STBREFR
+	ENDC
+	GETGLOB 4
+	INDEX 4
+}
+IFELSE
+SENDRAWMSG
+IFREF {
+	CALL $upd_only_time_in_c4$
+}
+THROW 0
+
+.globl	deploySubscriptionPlan_a99a726f_internal
+.type	deploySubscriptionPlan_a99a726f_internal, @function
+CALL $deploySubscriptionPlan_a99a726f_internal_macro$
+
+.macro deploySubscriptionPlan_a99a726f_internal_macro
+.loc ../contracts/SubscriptionsRoot.tsol, 178
+CALLREF {
+	CALL $_reserve_413ab4a8_internal_macro$
+}
+PUSHINT 0
+RAWRESERVE
+.loc ../contracts/SubscriptionsRoot.tsol, 180
+GETGLOB 9
+BLKSWAP 3, 2
+CALLREF {
+	CALL $_buildSubscriptionPlanInitData_fbb7f164_internal_macro$
+}
+SWAP
+GETGLOB 9
+CALLREF {
+	CALL $_deploySubscriptionPlan_c72c286e_internal_macro$
+}
+.loc ../contracts/SubscriptionsRoot.tsol, 182
+GETGLOB 4
+PUSHINT 0
+SETINDEXQ 2
+PUSHPOW2 7
+SETINDEXQ 4
+FALSE
+SETINDEXQ 1
+SETGLOB 4
+.loc ../contracts/SubscriptionsRoot.tsol, 0
+
+.globl	_reserve_413ab4a8_internal
+.type	_reserve_413ab4a8_internal, @function
+CALL $_reserve_413ab4a8_internal_macro$
+
+.macro _reserve_413ab4a8_internal_macro
+.loc ../contracts/SubscriptionsRoot.tsol, 186
+GETPARAM 7
+FIRST
+DEPTH
+ADDCONST -2
+PICK
+SUB
+UFITS 128
+CALLREF {
+	CALL $_targetBalance_81a00f03_internal_macro$
+}
+MAX
+.loc ../contracts/SubscriptionsRoot.tsol, 0
+
+.macro sendSurplusGas
+DROP
+GETGLOB 6
+THROWIFNOT 76
+GETGLOB 2
+ISNULL
+IFREF {
+	CALL $c4_to_c7$
+}
+.loc ../contracts/SubscriptionsRoot.tsol, 189
+OVER
+PUSHCONT {
+	LDREF
+	ENDS
+	CTOS
+}
+IF
+LDMSGADDR
+ENDS
+.loc ../contracts/SubscriptionsRoot.tsol, 0
+CALLREF {
+	CALL $sendSurplusGas_b75413d7_internal_macro$
+}
+IFREF {
+	CALL $upd_only_time_in_c4$
+}
+THROW 0
+
+.macro sendSurplusGas_b75413d7_internal_macro
+.loc ../contracts/SubscriptionsRoot.tsol, 233
+GETGLOB 11
+PARSEMSGADDR
+INDEX 3
+PLDU 256
+NEQINT 0
+GETGLOB 11
+GETGLOB 9
+SDEQ
+AND
+THROWIFNOT 102
+.loc ../contracts/SubscriptionsRoot.tsol, 190
+CALLREF {
+	CALL $_targetBalance_81a00f03_internal_macro$
+}
+PUSHINT 0
+RAWRESERVE
+.loc ../contracts/SubscriptionsRoot.tsol, 191
+NEWC
+STSLICECONST x42_
+STSLICE
+PUSHINT 111
+STZEROES
+ENDC
+PUSHPOW2 7
+ADDCONST 2
+UFITS 8
+SENDRAWMSG
+.loc ../contracts/SubscriptionsRoot.tsol, 0
+
+.globl	_getExpectedSubscriptionPlanAddress_e3436496_internal
+.type	_getExpectedSubscriptionPlanAddress_e3436496_internal, @function
+CALL $_getExpectedSubscriptionPlanAddress_e3436496_internal_macro$
+
+.macro _getExpectedSubscriptionPlanAddress_e3436496_internal_macro
+.loc ../contracts/SubscriptionsRoot.tsol, 200
+CALLREF {
+	CALL $_buildSubscriptionPlanInitData_fbb7f164_internal_macro$
+}
+HASHCU
+NEWC
+STSLICECONST x801_
+STU 256
+ENDC
+CTOS
+.loc ../contracts/SubscriptionsRoot.tsol, 0
+
+.globl	_buildSubscriptionPlanInitData_fbb7f164_internal
+.type	_buildSubscriptionPlanInitData_fbb7f164_internal, @function
+CALL $_buildSubscriptionPlanInitData_fbb7f164_internal_macro$
+
+.macro _buildSubscriptionPlanInitData_fbb7f164_internal_macro
+.loc ../contracts/SubscriptionsRoot.tsol, 205
+REVERSE 4, 0
+NEWC
+STSLICE
+STU 128
+STU 32
+SWAP
+NEWC
+STSLICE
+STBREFR
+ENDC
+.loc ../contracts/SubscriptionsRoot.tsol, 206
+PUSHINT 0
+NEWC
+STU 256
+PUSHINT 0
+NEWDICT
+PUSHINT 64
+DICTUSETB
+MYADDR
+PUSHINT 1
+ROT
+PUSHINT 64
+DICTUSET
+NEWC
+STSLICECONST x00
+PUSHINT 2
+ROT
+PUSHINT 64
+DICTUSETB
+SWAP
+PUSHINT 3
+ROT
+PUSHINT 64
+DICTUSETREF
+NEWC
+STDICT
+ENDC
+GETGLOB 10
+NEWC
+STSLICECONST x2_
+STOPTREF
+STOPTREF
+STZERO
+ENDC
+.loc ../contracts/SubscriptionsRoot.tsol, 0
+
+.globl	_deploySubscriptionPlan_c72c286e_internal
+.type	_deploySubscriptionPlan_c72c286e_internal, @function
+CALL $_deploySubscriptionPlan_c72c286e_internal_macro$
+
+.macro _deploySubscriptionPlan_c72c286e_internal_macro
+.loc ../contracts/SubscriptionsRoot.tsol, 222
+GETGLOB 15
+GETGLOB 13
+NEWC
+STREF
+STU 32
+ENDC
+.loc ../contracts/SubscriptionsRoot.tsol, 223
+SWAP
+GETGLOB 16
+ROT
+GETGLOB 14
+ROLL 5
+DUP
+HASHCU
+MYADDR
+PARSEMSGADDR
+THIRD
+NEWC
+STSLICECONST x9_
+STI 8
+STU 256
+ENDC
+CTOS
+XCPU S6, S6
+NEWC
+STSLICECONST x62_
+STSLICE
+SWAP
+STGRAMS
+PUSHINT 3
+STUR 107
+OVER
+CALLREF {
+	CTOS
+	LDI 1
+	SWAP
+	PUSHCONT {
+		LDI 5
+		NIP
+	}
+	IF
+	LDI 1
+	SWAP
+	PUSHCONT {
+		LDI 2
+		NIP
+	}
+	IF
+	LDOPTREF
+	LDOPTREF
+	LDDICT
+	ENDS
+	BLKDROP 3
+}
+STREF
+STSLICECONST 1
+ROLLREV 4
+NEWC
+STSLICECONST x6c0977eb
+STREF
+STREF
+STU 32
+STSLICE
+STBREFR
+ENDC
+PUSHINT 1
+SENDRAWMSG
+.loc ../contracts/SubscriptionsRoot.tsol, 0
+
+.macro c4_to_c7
+PUSHROOT
+CTOS
+LDU 256 ; pubkey c4
+LDU 64 ; pubkey timestamp c4
+LDU 1 ; ctor flag
+NIP
+LDREF
+LDMSGADDR
+LDREF
+ENDS
+CTOS
+LDMSGADDR
+LDREF
+LDREF
+LDU 32
+LDU 32
+ENDS
+SETGLOB 16
+SETGLOB 15
+SETGLOB 14
+SETGLOB 13
+SETGLOB 12
+SETGLOB 11
+SETGLOB 10
+SETGLOB 3
+SETGLOB 2
+
+.macro c4_to_c7_with_init_storage
+PUSHROOT
+CTOS
+SBITS
+GTINT 1
+PUSHCONT {
+	PUSHINT 0
+	PUSHROOT
+	CTOS
+	PLDDICT ; D
+	PUSHINT 1
+	OVER
+	PUSHINT 64
+	DICTUGETREF
+	PUSHCONT {
+		PUSHREF {
+		}
+	}
+	IFNOT
+	PUSHINT 2
+	PUSH S2
+	PUSHINT 64
+	DICTUGET
+	PUSHCONT {
+		PUSHREFSLICE {
+			.blob x8000000000000000000000000000000000000000000000000000000000000000001_
+		}
+	}
+	IFNOT
+	PUSHREFSLICE {
+		.blob x8000000000000000000000000000000000000000000000000000000000000000001_
+	}
+	PUSHREF {
+	}
+	DUP
+	PUSHINT 0
+	DUP
+	SETGLOB 16
+	SETGLOB 15
+	SETGLOB 14
+	SETGLOB 13
+	SETGLOB 12
+	SETGLOB 11
+	SETGLOB 10
+	PUSHINT 64
+	DICTUGET
+	THROWIFNOT 61
+	PLDU 256
+	SETGLOB 2
+	PUSHINT 0 ; timestamp
+	SETGLOB 3
+}
+IFREFELSE {
+	CALL $c4_to_c7$
+}
+
+.macro c7_to_c4
+GETGLOB 16
+GETGLOB 15
+GETGLOB 14
+GETGLOB 13
+GETGLOB 12
+GETGLOB 11
+GETGLOB 10
+GETGLOB 3
+GETGLOB 2
+NEWC
+STU 256
+STU 64
+STONE
+STREF
+STSLICE
+ROLLREV 5
+NEWC
+STSLICE
+STREF
+STREF
+STU 32
+STU 32
+STBREFR
+ENDC
+POPROOT
+
+.macro upd_only_time_in_c4
+PUSHROOT
+CTOS
+LDU 256
+LDU 64
+NIP
+GETGLOB 3
+ROT
+NEWC
+STU 256
+STU 64
+STSLICE
+ENDC
+POPROOT
+
+.internal-alias :main_internal, 0
+.internal :main_internal
+PUSHROOT
+CTOS
+SBITS
+NEQINT 1
+SETGLOB 6
+PUSH S2
+CTOS
+LDU 4 ; bounced tail
+LDMSGADDR ; bounced src tail
+DROP
+SETGLOB 9
+MODPOW2 1
+GETGLOB 4
+TRUE
+SETINDEXQ 1
+PUSHINT 10000000
+SETINDEXQ 2
+NULL
+SETINDEXQ 3
+PUSHINT 0
+SETINDEXQ 4
+SETGLOB 4
+IFRET
+OVER
+SEMPTY ; isEmpty
+IFJMPREF {
+	GETGLOB 6
+	THROWIFNOT 76
+}
+OVER
+LDUQ 32  ; [funcId] body' ok
+THROWIFNOT 60
+OVER
+IFNOTJMPREF {
+	GETGLOB 6
+	THROWIFNOT 76
+}
+SWAP
+CALLREF {
+	CALL $public_function_selector$
+}
+THROW 60
+
+.internal-alias :main_external, -1
+.internal :main_external
+PUSHROOT
+CTOS
+SBITS
+NEQINT 1
+SETGLOB 6
+PUSHREFSLICE {
+	.blob x8000000000000000000000000000000000000000000000000000000000000000001_
+}
+SETGLOB 9
+OVER
+CALLREF {
+	CALL $c4_to_c7_with_init_storage$
+}
+LDU 1 ; haveSign msgSlice
+SWAP
+PUSHCONT {
+	PUSHPOW2 9
+	LDSLICEX ; signatureSlice msgSlice
+	DUP
+	HASHSU ; signatureSlice msgSlice hashMsgSlice
+	SWAP
+	LDU 1 ; signatureSlice hashMsgSlice hasPubkey msgSlice
+	SWAP
+	PUSHCONT {
+		LDU 256 ; signatureSlice hashMsgSlice pubkey msgSlice
+		XCHG S3
+		SWAP
+	}
+	PUSHCONT {
+		XCHG S2
+		GETGLOB 2
+	}
+	IFELSE
+	CHKSIGNU ; msgSlice isSigned
+	THROWIFNOT 40
+}
+PUSHCONT {
+	LDU 1 ; hasPubkey msgSlice
+	SWAP
+	THROWIF 58
+}
+IFELSE
+LDU 64 ; timestamp msgSlice
+SWAP
+CALL $replay_protection_macro$
+LDU 32 ; expireAt msgSlice
+SWAP
+NOW ; msgSlice expireAt now
+GREATER ; msgSlice expireAt>now
+THROWIFNOT 57
+LDU 32 ; funcId body
+SWAP
+CALLREF {
+	CALL $public_function_selector$
+}
+THROW 60
+
+.macro public_function_selector
+DUP
+PUSHINT 360877100
+LEQ
+IFJMPREF {
+	DUP
+	PUSHINT 8748794
+	EQUAL
+	IFJMPREF {
+		CALL $platformCode$
+	}
+	DUP
+	PUSHINT 68180070
+	EQUAL
+	IFJMPREF {
+		CALL $setSubscriptionPlanCode$
+	}
+	DUP
+	PUSHINT 200164809
+	EQUAL
+	IFJMPREF {
+		CALL $acceptOwnership$
+	}
+	DUP
+	PUSHINT 360877100
+	EQUAL
+	IFJMPREF {
+		CALL $transferOwnership$
+	}
+}
+DUP
+PUSHINT 805581008
+LEQ
+IFJMPREF {
+	DUP
+	PUSHINT 419890091
+	EQUAL
+	IFJMPREF {
+		CALL $requestUpgradeSubscriptionCode$
+	}
+	DUP
+	PUSHINT 552322925
+	EQUAL
+	IFJMPREF {
+		CALL $sendSurplusGas$
+	}
+	DUP
+	PUSHINT 776839371
+	EQUAL
+	IFJMPREF {
+		CALL $subscriptionPlanVersion$
+	}
+	DUP
+	PUSHINT 805581008
+	EQUAL
+	IFJMPREF {
+		CALL $setSubscriptionCode$
+	}
+}
+DUP
+PUSHINT 1291625113
+LEQ
+IFJMPREF {
+	DUP
+	PUSHINT 911978585
+	EQUAL
+	IFJMPREF {
+		CALL $rootOwner$
+	}
+	DUP
+	PUSHINT 1064507783
+	EQUAL
+	IFJMPREF {
+		CALL $subscriptionPlanOf$
+	}
+	DUP
+	PUSHINT 1126254647
+	EQUAL
+	IFJMPREF {
+		CALL $requestUpgradeSubscriptionPlan$
+	}
+	DUP
+	PUSHINT 1291625113
+	EQUAL
+	IFJMPREF {
+		CALL $subscriptionPlanCode$
+	}
+}
+DUP
+PUSHINT 1857250554
+LEQ
+IFJMPREF {
+	DUP
+	PUSHINT 1570392636
+	EQUAL
+	IFJMPREF {
+		CALL $subscriptionVersion$
+	}
+	DUP
+	PUSHINT 1587864170
+	EQUAL
+	IFJMPREF {
+		CALL $subscriptionCode$
+	}
+	DUP
+	PUSHINT 1756716863
+	EQUAL
+	IFJMPREF {
+		CALL $constructor$
+	}
+	DUP
+	PUSHINT 1857250554
+	EQUAL
+	IFJMPREF {
+		CALL $deploySubscriptionPlan$
+	}
+}
+

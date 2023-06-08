@@ -1,0 +1,18 @@
+pragma ever-solidity ^0.62.0;
+
+interface IRoot {
+    function requestUpgradeSubscriptionCode(uint32 currentVersion,
+        address owner,
+        address tip3_root,
+        uint128 amount,
+        uint32 period,
+        address remainingGasTo) external;
+
+    function requestUpgradeSubscriptionPlan(uint32 currentVersion,
+        address owner,
+        address tip3_root,
+        uint128 amount,
+        uint32 period,
+        address remainingGasTo,
+        TvmCell upgrade_data) external;
+}	

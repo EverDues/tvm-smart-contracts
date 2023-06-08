@@ -1,0 +1,142 @@
+{
+	"ABI version": 2,
+	"version": "2.2",
+	"header": ["pubkey", "time", "expire"],
+	"functions": [
+		{
+			"name": "constructor",
+			"inputs": [
+			],
+			"outputs": [
+			]
+		},
+		{
+			"name": "acceptSubscriptionUpgrade",
+			"inputs": [
+				{"name":"code","type":"cell"},
+				{"name":"version","type":"uint32"},
+				{"name":"remainingGasTo","type":"address"},
+				{"name":"upgrade_params","type":"cell"}
+			],
+			"outputs": [
+			]
+		},
+		{
+			"name": "cancel",
+			"inputs": [
+				{"name":"send_gas_to","type":"address"}
+			],
+			"outputs": [
+			]
+		},
+		{
+			"name": "executeSubscription",
+			"inputs": [
+				{"name":"remainingGasTo","type":"address"}
+			],
+			"outputs": [
+			]
+		},
+		{
+			"name": "stopSubscription",
+			"inputs": [
+				{"name":"remainingGasTo","type":"address"}
+			],
+			"outputs": [
+			]
+		},
+		{
+			"name": "resumeSubscription",
+			"inputs": [
+				{"name":"remainingGasTo","type":"address"}
+			],
+			"outputs": [
+			]
+		},
+		{
+			"name": "checkSubscriptionStatus",
+			"inputs": [
+			],
+			"outputs": [
+				{"name":"value0","type":"uint8"}
+			]
+		},
+		{
+			"name": "onDeployWallet",
+			"inputs": [
+				{"name":"subscription_wallet_","type":"address"}
+			],
+			"outputs": [
+			]
+		},
+		{
+			"name": "onWalletOf",
+			"inputs": [
+				{"name":"wallet_address","type":"address"}
+			],
+			"outputs": [
+			]
+		},
+		{
+			"name": "onAcceptTokensAllowance",
+			"inputs": [
+				{"name":"tokenRoot","type":"address"},
+				{"name":"amount","type":"uint128"},
+				{"name":"recoveryRate","type":"uint128"},
+				{"name":"sender","type":"address"},
+				{"name":"remainingGasTo","type":"address"},
+				{"name":"value5","type":"cell"}
+			],
+			"outputs": [
+			]
+		},
+		{
+			"name": "requestSubscriptionCodeUpdate",
+			"inputs": [
+				{"name":"remainingGasTo","type":"address"}
+			],
+			"outputs": [
+			]
+		},
+		{
+			"name": "onAcceptTokensTransfer",
+			"inputs": [
+				{"name":"tokenRoot","type":"address"},
+				{"name":"amount","type":"uint128"},
+				{"name":"value2","type":"address"},
+				{"name":"value3","type":"address"},
+				{"name":"remainingGasTo","type":"address"},
+				{"name":"value5","type":"cell"}
+			],
+			"outputs": [
+			]
+		},
+		{
+			"name": "subscription",
+			"inputs": [
+			],
+			"outputs": [
+				{"components":[{"name":"tip3_root","type":"address"},{"name":"recipient","type":"address"},{"name":"period","type":"uint32"},{"name":"amount","type":"uint128"},{"name":"payment_timestamp","type":"uint32"},{"name":"execution_timestamp","type":"uint32"},{"name":"status","type":"uint8"},{"name":"payload","type":"cell"}],"name":"subscription","type":"tuple"}
+			]
+		}
+	],
+	"data": [
+	],
+	"events": [
+	],
+	"fields": [
+		{"name":"_pubkey","type":"uint256"},
+		{"name":"_timestamp","type":"uint64"},
+		{"name":"_constructorFlag","type":"bool"},
+		{"components":[{"name":"tip3_root","type":"address"},{"name":"recipient","type":"address"},{"name":"period","type":"uint32"},{"name":"amount","type":"uint128"},{"name":"payment_timestamp","type":"uint32"},{"name":"execution_timestamp","type":"uint32"},{"name":"status","type":"uint8"},{"name":"payload","type":"cell"}],"name":"subscription","type":"tuple"},
+		{"name":"nonce","type":"uint32"},
+		{"name":"subscription_tip3_wallet","type":"address"},
+		{"name":"_owner","type":"address"},
+		{"name":"owner_tip3_wallet","type":"address"},
+		{"name":"root","type":"address"},
+		{"name":"platform_code","type":"cell"},
+		{"name":"_platform_params","type":"cell"},
+		{"name":"current_version","type":"uint32"},
+		{"name":"type_id","type":"uint8"}
+	]
+}
