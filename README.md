@@ -1,6 +1,6 @@
 # EverDues TVM Smart Contract Sample for Subscription Infrastructure Implementation
 
-![ EverDues](https://github.com/EverDues/tvm-smart-contracts/blob/main/logo.png)
+![ EverDues](https://github.com/EverDues/tvm-smart-contracts/blob/master/logo.png)
 
 EverDues TVM Smart Contracts sample is a repository that provides a collection of smart contracts for the VENOM blockchain. These contracts are developed using the Threaded Virtual Machine (TVM) and are designed to be deployed and executed on the VENOM network. 
 
