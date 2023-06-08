@@ -19,6 +19,8 @@ The EverDues TVM Smart Contract Project is developed to cater to the needs of th
 
 By utilizing the EverDues TVM Smart Contract Project, the WE3 Subscription system can ensure secure, transparent, and reliable subscription management, enabling smooth user experiences and efficient subscription processes.
 
+EverDues TVM Smart Contract Project works on top of a new implementation of the TIP3 standard proposed by our team.
+
 [TIP3 implementation](https://github.com/EverDues/tip3/commits/master)
 
 
