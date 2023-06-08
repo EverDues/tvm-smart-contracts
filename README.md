@@ -38,7 +38,7 @@ To get started with TVM Smart Contracts and deploy the sample, follow these step
    npm install
    ```
 
-3. Built the smart contracts using the script:
+3. Build the smart contracts:
 
    ```shell
    npx locklift build  --config locklift.config.ts
