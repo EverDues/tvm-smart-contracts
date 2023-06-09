@@ -11,6 +11,14 @@
 			]
 		},
 		{
+			"name": "sendSurplusGas",
+			"inputs": [
+				{"name":"to","type":"address"}
+			],
+			"outputs": [
+			]
+		},
+		{
 			"name": "acceptSubscriptionUpgrade",
 			"inputs": [
 				{"name":"code","type":"cell"},
@@ -130,13 +138,13 @@
 		{"name":"_constructorFlag","type":"bool"},
 		{"components":[{"name":"tip3_root","type":"address"},{"name":"recipient","type":"address"},{"name":"period","type":"uint32"},{"name":"amount","type":"uint128"},{"name":"payment_timestamp","type":"uint32"},{"name":"execution_timestamp","type":"uint32"},{"name":"status","type":"uint8"},{"name":"payload","type":"cell"}],"name":"subscription","type":"tuple"},
 		{"name":"nonce","type":"uint32"},
-		{"name":"subscription_tip3_wallet","type":"address"},
-		{"name":"_owner","type":"address"},
-		{"name":"owner_tip3_wallet","type":"address"},
-		{"name":"root","type":"address"},
 		{"name":"platform_code","type":"cell"},
 		{"name":"_platform_params","type":"cell"},
 		{"name":"current_version","type":"uint32"},
-		{"name":"type_id","type":"uint8"}
+		{"name":"type_id","type":"uint8"},
+		{"name":"subscription_tip3_wallet","type":"address"},
+		{"name":"_owner","type":"address"},
+		{"name":"owner_tip3_wallet","type":"address"},
+		{"name":"root","type":"address"}
 	]
 }

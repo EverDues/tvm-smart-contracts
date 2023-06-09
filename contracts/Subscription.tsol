@@ -70,7 +70,7 @@ contract Subscription {
         _;
     }
 
-    function sendSurplusGas(address to) external view {
+    function sendSurplusGas(address to) external pure {
         tvm.rawReserve(_targetBalance(), 0);
         to.transfer({ value: 0, flag: MsgFlag.ALL_NOT_RESERVED + MsgFlag.IGNORE_ERRORS, bounce: false });
     }

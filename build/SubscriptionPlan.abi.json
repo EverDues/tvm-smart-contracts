@@ -34,7 +34,8 @@
 			"inputs": [
 				{"name":"answerId","type":"uint32"},
 				{"name":"payload","type":"cell"},
-				{"name":"deploySubscriptionValue","type":"uint128"}
+				{"name":"deploySubscriptionValue","type":"uint128"},
+				{"name":"remainingGasTo","type":"address"}
 			],
 			"outputs": [
 				{"name":"subscription","type":"address"}
@@ -78,19 +79,20 @@
 			]
 		},
 		{
+			"name": "executeSubscriptions",
+			"inputs": [
+				{"name":"executeSubscriptionValue","type":"uint128"},
+				{"name":"remainingGasTo","type":"address"}
+			],
+			"outputs": [
+			]
+		},
+		{
 			"name": "getSubscriptions",
 			"inputs": [
 			],
 			"outputs": [
 				{"name":"value0","type":"address[]"}
-			]
-		},
-		{
-			"name": "executeSubscriptions",
-			"inputs": [
-				{"name":"executeSubscriptionValue","type":"uint128"}
-			],
-			"outputs": [
 			]
 		}
 	],

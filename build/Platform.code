@@ -26,19 +26,19 @@ PUSHCONT {
 IFELSE
 LDMSGADDR
 ENDS
-.loc ../contracts/Platform.tsol, 17
+.loc ../contracts/Platform.tsol, 12
 GETGLOB 9
 GETGLOB 10
 SDEQ
 PUSHCONT {
-	.loc ../contracts/Platform.tsol, 18
+	.loc ../contracts/Platform.tsol, 13
 	BLKPUSH 4, 3
 	CALLREF {
 		CALL $_initialize_7504f0e9_internal_macro$
 	}
 }
 PUSHCONT {
-	.loc ../contracts/Platform.tsol, 20
+	.loc ../contracts/Platform.tsol, 15
 	DUP
 	NEWC
 	STSLICECONST x42_
@@ -62,24 +62,23 @@ THROW 0
 CALL $_initialize_7504f0e9_internal_macro$
 
 .macro _initialize_7504f0e9_internal_macro
-.loc ../contracts/Platform.tsol, 30
+.loc ../contracts/Platform.tsol, 20
 GETGLOB 9
 GETGLOB 10
 SDEQ
 THROWIFNOT 1000
-.loc ../contracts/Platform.tsol, 34
-PUSH S3
-ROLL 3
+.loc ../contracts/Platform.tsol, 21
+ROT
 GETGLOB 12
 MYCODE
 GETGLOB 11
-ROLL 6
+ROLL 5
 PUSHINT 0
-ROLL 7
+ROLL 6
 GETGLOB 10
 NEWC
 STSLICE
-ROLLREV 8
+ROLLREV 7
 NEWC
 STSLICE
 STU 32
@@ -88,13 +87,12 @@ STU 8
 STREF
 STREF
 STREF
-STREF
 STBREFR
 ENDC
-.loc ../contracts/Platform.tsol, 46
+.loc ../contracts/Platform.tsol, 32
 OVER
 SETCODE
-.loc ../contracts/Platform.tsol, 47
+.loc ../contracts/Platform.tsol, 33
 SWAP
 CTOS
 DUP
@@ -109,7 +107,7 @@ PLDREF
 CTOS
 BLESS
 POP C3
-.loc ../contracts/Platform.tsol, 49
+.loc ../contracts/Platform.tsol, 35
 CALLREF {
 	CALL $:onCodeUpgrade$
 }
