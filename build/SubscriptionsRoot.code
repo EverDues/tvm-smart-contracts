@@ -17,8 +17,10 @@ PUSHCONT {
 }
 IF
 LDMSGADDR
+LDREF
+LDREF
 ENDS
-.loc ../contracts/SubscriptionsRoot.tsol, 24
+.loc ../contracts/SubscriptionsRoot.tsol, 30
 GETGLOB 5
 DUP
 ISNULL
@@ -28,7 +30,7 @@ PUSHCONT {
 }
 IF
 PUSHCONT {
-	.loc ../contracts/SubscriptionsRoot.tsol, 25
+	.loc ../contracts/SubscriptionsRoot.tsol, 31
 	GETGLOB 5
 	DUP
 	ISNULL
@@ -50,12 +52,12 @@ PUSHCONT {
 	}
 	IF
 	THROWIFNOT 102
-	.loc ../contracts/SubscriptionsRoot.tsol, 26
+	.loc ../contracts/SubscriptionsRoot.tsol, 32
 	ACCEPT
 }
 PUSHCONT {
-	.loc ../contracts/SubscriptionsRoot.tsol, 28
-	GETGLOB 11
+	.loc ../contracts/SubscriptionsRoot.tsol, 34
+	GETGLOB 13
 	PARSEMSGADDR
 	INDEX 3
 	PLDU 256
@@ -73,7 +75,7 @@ PUSHCONT {
 		PLDU 256
 		EQINT 0
 		GETGLOB 9
-		GETGLOB 11
+		GETGLOB 13
 		SDEQ
 		AND
 	}
@@ -81,13 +83,18 @@ PUSHCONT {
 	THROWIFNOT 102
 }
 IFELSE
-.loc ../contracts/SubscriptionsRoot.tsol, 35
+.loc ../contracts/SubscriptionsRoot.tsol, 40
+SWAP
+SETGLOB 16
+.loc ../contracts/SubscriptionsRoot.tsol, 41
+SETGLOB 15
+.loc ../contracts/SubscriptionsRoot.tsol, 43
 CALLREF {
 	CALL $_targetBalance_81a00f03_internal_macro$
 }
 PUSHINT 0
 RAWRESERVE
-.loc ../contracts/SubscriptionsRoot.tsol, 36
+.loc ../contracts/SubscriptionsRoot.tsol, 45
 NEWC
 STSLICECONST x42_
 STSLICE
@@ -113,7 +120,7 @@ ISNULL
 IFREF {
 	CALL $c4_to_c7$
 }
-.loc ../contracts/SubscriptionsRoot.tsol, 44
+.loc ../contracts/SubscriptionsRoot.tsol, 53
 OVER
 PUSHCONT {
 	LDREF
@@ -138,27 +145,27 @@ CALLREF {
 THROW 0
 
 .macro transferOwnership_6d435421_internal_macro
-.loc ../contracts/SubscriptionsRoot.tsol, 40
-GETGLOB 11
+.loc ../contracts/SubscriptionsRoot.tsol, 49
+GETGLOB 13
 PARSEMSGADDR
 INDEX 3
 PLDU 256
 NEQINT 0
-GETGLOB 11
+GETGLOB 13
 GETGLOB 9
 SDEQ
 AND
 THROWIFNOT 102
-.loc ../contracts/SubscriptionsRoot.tsol, 45
+.loc ../contracts/SubscriptionsRoot.tsol, 54
 CALLREF {
 	CALL $_reserve_413ab4a8_internal_macro$
 }
 PUSHINT 0
 RAWRESERVE
-.loc ../contracts/SubscriptionsRoot.tsol, 47
+.loc ../contracts/SubscriptionsRoot.tsol, 56
 SWAP
-SETGLOB 12
-.loc ../contracts/SubscriptionsRoot.tsol, 48
+SETGLOB 14
+.loc ../contracts/SubscriptionsRoot.tsol, 57
 NEWC
 STSLICECONST x42_
 STSLICE
@@ -180,7 +187,7 @@ ISNULL
 IFREF {
 	CALL $c4_to_c7$
 }
-.loc ../contracts/SubscriptionsRoot.tsol, 51
+.loc ../contracts/SubscriptionsRoot.tsol, 60
 OVER
 PUSHCONT {
 	LDREF
@@ -201,26 +208,26 @@ CALLREF {
 THROW 0
 
 .macro acceptOwnership_51710e45_internal_macro
-.loc ../contracts/SubscriptionsRoot.tsol, 52
+.loc ../contracts/SubscriptionsRoot.tsol, 61
 GETGLOB 9
-GETGLOB 12
+GETGLOB 14
 SDEQ
 THROWIFNOT 1000
-.loc ../contracts/SubscriptionsRoot.tsol, 53
+.loc ../contracts/SubscriptionsRoot.tsol, 62
 CALLREF {
 	CALL $_reserve_413ab4a8_internal_macro$
 }
 PUSHINT 0
 RAWRESERVE
-.loc ../contracts/SubscriptionsRoot.tsol, 55
+.loc ../contracts/SubscriptionsRoot.tsol, 64
 GETGLOB 9
-SETGLOB 11
-.loc ../contracts/SubscriptionsRoot.tsol, 56
+SETGLOB 13
+.loc ../contracts/SubscriptionsRoot.tsol, 65
 PUSHREFSLICE {
 	.blob x8000000000000000000000000000000000000000000000000000000000000000001_
 }
-SETGLOB 12
-.loc ../contracts/SubscriptionsRoot.tsol, 57
+SETGLOB 14
+.loc ../contracts/SubscriptionsRoot.tsol, 66
 NEWC
 STSLICECONST x42_
 STSLICE
@@ -242,7 +249,7 @@ ISNULL
 IFREF {
 	CALL $c4_to_c7$
 }
-.loc ../contracts/SubscriptionsRoot.tsol, 60
+.loc ../contracts/SubscriptionsRoot.tsol, 69
 OVER
 PUSHCONT {
 	LDREF
@@ -262,24 +269,24 @@ IFREF {
 THROW 0
 
 .macro sendSurplusGas_b75413d7_internal_macro
-.loc ../contracts/SubscriptionsRoot.tsol, 40
-GETGLOB 11
+.loc ../contracts/SubscriptionsRoot.tsol, 49
+GETGLOB 13
 PARSEMSGADDR
 INDEX 3
 PLDU 256
 NEQINT 0
-GETGLOB 11
+GETGLOB 13
 GETGLOB 9
 SDEQ
 AND
 THROWIFNOT 102
-.loc ../contracts/SubscriptionsRoot.tsol, 61
+.loc ../contracts/SubscriptionsRoot.tsol, 70
 CALLREF {
 	CALL $_targetBalance_81a00f03_internal_macro$
 }
 PUSHINT 0
 RAWRESERVE
-.loc ../contracts/SubscriptionsRoot.tsol, 62
+.loc ../contracts/SubscriptionsRoot.tsol, 71
 NEWC
 STSLICECONST x42_
 STSLICE
@@ -301,7 +308,7 @@ ISNULL
 IFREF {
 	CALL $c4_to_c7$
 }
-.loc ../contracts/SubscriptionsRoot.tsol, 65
+.loc ../contracts/SubscriptionsRoot.tsol, 74
 LDREF
 ENDS
 .loc ../contracts/SubscriptionsRoot.tsol, 0
@@ -315,30 +322,30 @@ CALLREF {
 THROW 0
 
 .macro setSubscriptionCode_287e32b7_internal_macro
-.loc ../contracts/SubscriptionsRoot.tsol, 40
-GETGLOB 11
+.loc ../contracts/SubscriptionsRoot.tsol, 49
+GETGLOB 13
 PARSEMSGADDR
 INDEX 3
 PLDU 256
 NEQINT 0
-GETGLOB 11
+GETGLOB 13
 GETGLOB 9
 SDEQ
 AND
 THROWIFNOT 102
-.loc ../contracts/SubscriptionsRoot.tsol, 66
+.loc ../contracts/SubscriptionsRoot.tsol, 75
 CALLREF {
 	CALL $_targetBalance_81a00f03_internal_macro$
 }
 PUSHINT 0
 RAWRESERVE
-.loc ../contracts/SubscriptionsRoot.tsol, 67
-SETGLOB 13
-.loc ../contracts/SubscriptionsRoot.tsol, 68
-GETGLOB 15
+.loc ../contracts/SubscriptionsRoot.tsol, 76
+SETGLOB 15
+.loc ../contracts/SubscriptionsRoot.tsol, 77
+GETGLOB 17
 INC
 UFITS 32
-SETGLOB 15
+SETGLOB 17
 .loc ../contracts/SubscriptionsRoot.tsol, 0
 
 .macro setSubscriptionPlanCode
@@ -350,7 +357,7 @@ ISNULL
 IFREF {
 	CALL $c4_to_c7$
 }
-.loc ../contracts/SubscriptionsRoot.tsol, 71
+.loc ../contracts/SubscriptionsRoot.tsol, 80
 LDREF
 ENDS
 .loc ../contracts/SubscriptionsRoot.tsol, 0
@@ -364,30 +371,30 @@ CALLREF {
 THROW 0
 
 .macro setSubscriptionPlanCode_a53c6f4f_internal_macro
-.loc ../contracts/SubscriptionsRoot.tsol, 40
-GETGLOB 11
+.loc ../contracts/SubscriptionsRoot.tsol, 49
+GETGLOB 13
 PARSEMSGADDR
 INDEX 3
 PLDU 256
 NEQINT 0
-GETGLOB 11
+GETGLOB 13
 GETGLOB 9
 SDEQ
 AND
 THROWIFNOT 102
-.loc ../contracts/SubscriptionsRoot.tsol, 72
+.loc ../contracts/SubscriptionsRoot.tsol, 81
 CALLREF {
 	CALL $_targetBalance_81a00f03_internal_macro$
 }
 PUSHINT 0
 RAWRESERVE
-.loc ../contracts/SubscriptionsRoot.tsol, 73
-SETGLOB 14
-.loc ../contracts/SubscriptionsRoot.tsol, 74
-GETGLOB 16
+.loc ../contracts/SubscriptionsRoot.tsol, 82
+SETGLOB 16
+.loc ../contracts/SubscriptionsRoot.tsol, 83
+GETGLOB 18
 INC
 UFITS 32
-SETGLOB 16
+SETGLOB 18
 .loc ../contracts/SubscriptionsRoot.tsol, 0
 
 .macro requestUpgradeSubscriptionCode
@@ -399,7 +406,7 @@ ISNULL
 IFREF {
 	CALL $c4_to_c7$
 }
-.loc ../contracts/SubscriptionsRoot.tsol, 77
+.loc ../contracts/SubscriptionsRoot.tsol, 86
 OVER
 PUSHCONT {
 	LDU 32
@@ -433,7 +440,7 @@ IFREF {
 THROW 0
 
 .macro requestUpgradeSubscriptionCode_9ee770f7_internal_macro
-.loc ../contracts/SubscriptionsRoot.tsol, 85
+.loc ../contracts/SubscriptionsRoot.tsol, 94
 GETGLOB 9
 BLKSWAP 4, 2
 ROT
@@ -442,18 +449,18 @@ CALLREF {
 }
 SDEQ
 THROWIFNOT 101
-.loc ../contracts/SubscriptionsRoot.tsol, 90
+.loc ../contracts/SubscriptionsRoot.tsol, 99
 CALLREF {
 	CALL $_reserve_413ab4a8_internal_macro$
 }
 PUSHINT 0
 RAWRESERVE
-.loc ../contracts/SubscriptionsRoot.tsol, 92
+.loc ../contracts/SubscriptionsRoot.tsol, 101
 SWAP
-GETGLOB 15
+GETGLOB 17
 EQUAL
 PUSHCONT {
-	.loc ../contracts/SubscriptionsRoot.tsol, 93
+	.loc ../contracts/SubscriptionsRoot.tsol, 102
 	DUP
 	NEWC
 	STSLICECONST x62_
@@ -462,10 +469,10 @@ PUSHCONT {
 	STZEROES
 }
 PUSHCONT {
-	.loc ../contracts/SubscriptionsRoot.tsol, 95
+	.loc ../contracts/SubscriptionsRoot.tsol, 104
 	DUP
+	GETGLOB 17
 	GETGLOB 15
-	GETGLOB 13
 	GETGLOB 9
 	FALSE
 	NEWC
@@ -499,7 +506,7 @@ ISNULL
 IFREF {
 	CALL $c4_to_c7$
 }
-.loc ../contracts/SubscriptionsRoot.tsol, 103
+.loc ../contracts/SubscriptionsRoot.tsol, 112
 OVER
 PUSHCONT {
 	LDU 32
@@ -534,7 +541,7 @@ IFREF {
 THROW 0
 
 .macro requestUpgradeSubscriptionPlan_002e713e_internal_macro
-.loc ../contracts/SubscriptionsRoot.tsol, 112
+.loc ../contracts/SubscriptionsRoot.tsol, 121
 GETGLOB 9
 BLKSWAP 4, 3
 ROT
@@ -543,18 +550,18 @@ CALLREF {
 }
 SDEQ
 THROWIFNOT 101
-.loc ../contracts/SubscriptionsRoot.tsol, 117
+.loc ../contracts/SubscriptionsRoot.tsol, 126
 CALLREF {
 	CALL $_reserve_413ab4a8_internal_macro$
 }
 PUSHINT 0
 RAWRESERVE
-.loc ../contracts/SubscriptionsRoot.tsol, 119
+.loc ../contracts/SubscriptionsRoot.tsol, 128
 ROT
-GETGLOB 15
+GETGLOB 17
 EQUAL
 PUSHCONT {
-	.loc ../contracts/SubscriptionsRoot.tsol, 120
+	.loc ../contracts/SubscriptionsRoot.tsol, 129
 	OVER
 	NEWC
 	STSLICECONST x62_
@@ -563,10 +570,10 @@ PUSHCONT {
 	STZEROES
 }
 PUSHCONT {
-	.loc ../contracts/SubscriptionsRoot.tsol, 122
+	.loc ../contracts/SubscriptionsRoot.tsol, 131
 	PUSH2 S0, S1
+	GETGLOB 17
 	GETGLOB 15
-	GETGLOB 13
 	GETGLOB 9
 	FALSE
 	NEWC
@@ -601,7 +608,7 @@ ISNULL
 IFREF {
 	CALL $c4_to_c7$
 }
-.loc ../contracts/SubscriptionsRoot.tsol, 130
+.loc ../contracts/SubscriptionsRoot.tsol, 139
 LDU 32
 GETGLOB 4
 ROT
@@ -689,7 +696,7 @@ THROW 0
 CALL $subscriptionPlanOf_0238055b_internal_macro$
 
 .macro subscriptionPlanOf_0238055b_internal_macro
-.loc ../contracts/SubscriptionsRoot.tsol, 137
+.loc ../contracts/SubscriptionsRoot.tsol, 146
 GETGLOB 4
 PUSHINT 0
 SETINDEXQ 2
@@ -712,7 +719,7 @@ ISNULL
 IFREF {
 	CALL $c4_to_c7$
 }
-.loc ../contracts/SubscriptionsRoot.tsol, 145
+.loc ../contracts/SubscriptionsRoot.tsol, 154
 LDU 32
 GETGLOB 4
 ROT
@@ -793,13 +800,13 @@ IFREF {
 THROW 0
 
 .macro deploySubscriptionPlan_a99a726f_internal_macro
-.loc ../contracts/SubscriptionsRoot.tsol, 151
+.loc ../contracts/SubscriptionsRoot.tsol, 160
 CALLREF {
 	CALL $_reserve_413ab4a8_internal_macro$
 }
 PUSHINT 0
 RAWRESERVE
-.loc ../contracts/SubscriptionsRoot.tsol, 153
+.loc ../contracts/SubscriptionsRoot.tsol, 162
 GETGLOB 9
 BLKSWAP 3, 2
 CALLREF {
@@ -810,7 +817,7 @@ GETGLOB 9
 CALLREF {
 	CALL $_deploySubscriptionPlan_c72c286e_internal_macro$
 }
-.loc ../contracts/SubscriptionsRoot.tsol, 159
+.loc ../contracts/SubscriptionsRoot.tsol, 168
 GETGLOB 4
 PUSHINT 0
 SETINDEXQ 2
@@ -826,7 +833,7 @@ SETGLOB 4
 CALL $_getExpectedSubscriptionPlanAddress_e3436496_internal_macro$
 
 .macro _getExpectedSubscriptionPlanAddress_e3436496_internal_macro
-.loc ../contracts/SubscriptionsRoot.tsol, 168
+.loc ../contracts/SubscriptionsRoot.tsol, 177
 CALLREF {
 	CALL $_buildSubscriptionPlanInitData_fbb7f164_internal_macro$
 }
@@ -843,7 +850,7 @@ CTOS
 CALL $_buildSubscriptionPlanInitData_fbb7f164_internal_macro$
 
 .macro _buildSubscriptionPlanInitData_fbb7f164_internal_macro
-.loc ../contracts/SubscriptionsRoot.tsol, 177
+.loc ../contracts/SubscriptionsRoot.tsol, 186
 REVERSE 4, 0
 NEWC
 STSLICE
@@ -854,7 +861,7 @@ NEWC
 STSLICE
 STBREFR
 ENDC
-.loc ../contracts/SubscriptionsRoot.tsol, 179
+.loc ../contracts/SubscriptionsRoot.tsol, 188
 PUSHINT 0
 NEWC
 STU 256
@@ -881,7 +888,7 @@ DICTUSETREF
 NEWC
 STDICT
 ENDC
-GETGLOB 10
+GETGLOB 12
 NEWC
 STSLICECONST x2_
 STOPTREF
@@ -895,18 +902,18 @@ ENDC
 CALL $_deploySubscriptionPlan_c72c286e_internal_macro$
 
 .macro _deploySubscriptionPlan_c72c286e_internal_macro
-.loc ../contracts/SubscriptionsRoot.tsol, 192
+.loc ../contracts/SubscriptionsRoot.tsol, 201
+GETGLOB 17
 GETGLOB 15
-GETGLOB 13
 NEWC
 STREF
 STU 32
 ENDC
-.loc ../contracts/SubscriptionsRoot.tsol, 193
+.loc ../contracts/SubscriptionsRoot.tsol, 202
 SWAP
-GETGLOB 16
+GETGLOB 18
 ROT
-GETGLOB 14
+GETGLOB 16
 ROLL 5
 DUP
 HASHCU
@@ -974,7 +981,7 @@ ISNULL
 IFREF {
 	CALL $c4_to_c7$
 }
-.loc ../contracts/SubscriptionsRoot.tsol, 203
+.loc ../contracts/SubscriptionsRoot.tsol, 212
 LDU 32
 GETGLOB 4
 ROT
@@ -1044,7 +1051,7 @@ IFREF {
 THROW 0
 
 .macro rootOwner_00ee220c_internal_macro
-.loc ../contracts/SubscriptionsRoot.tsol, 204
+.loc ../contracts/SubscriptionsRoot.tsol, 213
 GETGLOB 4
 PUSHINT 0
 SETINDEXQ 2
@@ -1053,7 +1060,7 @@ SETINDEXQ 4
 FALSE
 SETINDEXQ 1
 SETGLOB 4
-GETGLOB 11
+GETGLOB 13
 .loc ../contracts/SubscriptionsRoot.tsol, 0
 
 .macro subscriptionPlanVersion
@@ -1065,7 +1072,7 @@ ISNULL
 IFREF {
 	CALL $c4_to_c7$
 }
-.loc ../contracts/SubscriptionsRoot.tsol, 207
+.loc ../contracts/SubscriptionsRoot.tsol, 216
 LDU 32
 GETGLOB 4
 ROT
@@ -1128,7 +1135,7 @@ IFREF {
 THROW 0
 
 .macro subscriptionPlanVersion_1f1cdfac_internal_macro
-.loc ../contracts/SubscriptionsRoot.tsol, 208
+.loc ../contracts/SubscriptionsRoot.tsol, 217
 GETGLOB 4
 PUSHINT 0
 SETINDEXQ 2
@@ -1137,7 +1144,7 @@ SETINDEXQ 4
 FALSE
 SETINDEXQ 1
 SETGLOB 4
-GETGLOB 16
+GETGLOB 18
 .loc ../contracts/SubscriptionsRoot.tsol, 0
 
 .macro subscriptionVersion
@@ -1149,7 +1156,7 @@ ISNULL
 IFREF {
 	CALL $c4_to_c7$
 }
-.loc ../contracts/SubscriptionsRoot.tsol, 211
+.loc ../contracts/SubscriptionsRoot.tsol, 220
 LDU 32
 GETGLOB 4
 ROT
@@ -1212,7 +1219,7 @@ IFREF {
 THROW 0
 
 .macro subscriptionVersion_fa3aab26_internal_macro
-.loc ../contracts/SubscriptionsRoot.tsol, 212
+.loc ../contracts/SubscriptionsRoot.tsol, 221
 GETGLOB 4
 PUSHINT 0
 SETINDEXQ 2
@@ -1221,7 +1228,7 @@ SETINDEXQ 4
 FALSE
 SETINDEXQ 1
 SETGLOB 4
-GETGLOB 15
+GETGLOB 17
 .loc ../contracts/SubscriptionsRoot.tsol, 0
 
 .macro platformCode
@@ -1233,7 +1240,7 @@ ISNULL
 IFREF {
 	CALL $c4_to_c7$
 }
-.loc ../contracts/SubscriptionsRoot.tsol, 215
+.loc ../contracts/SubscriptionsRoot.tsol, 224
 LDU 32
 GETGLOB 4
 ROT
@@ -1296,7 +1303,7 @@ IFREF {
 THROW 0
 
 .macro platformCode_f695c496_internal_macro
-.loc ../contracts/SubscriptionsRoot.tsol, 216
+.loc ../contracts/SubscriptionsRoot.tsol, 225
 GETGLOB 4
 PUSHINT 0
 SETINDEXQ 2
@@ -1305,7 +1312,7 @@ SETINDEXQ 4
 FALSE
 SETINDEXQ 1
 SETGLOB 4
-GETGLOB 10
+GETGLOB 12
 .loc ../contracts/SubscriptionsRoot.tsol, 0
 
 .macro subscriptionCode
@@ -1317,7 +1324,7 @@ ISNULL
 IFREF {
 	CALL $c4_to_c7$
 }
-.loc ../contracts/SubscriptionsRoot.tsol, 219
+.loc ../contracts/SubscriptionsRoot.tsol, 228
 LDU 32
 GETGLOB 4
 ROT
@@ -1380,7 +1387,7 @@ IFREF {
 THROW 0
 
 .macro subscriptionCode_48480137_internal_macro
-.loc ../contracts/SubscriptionsRoot.tsol, 220
+.loc ../contracts/SubscriptionsRoot.tsol, 229
 GETGLOB 4
 PUSHINT 0
 SETINDEXQ 2
@@ -1389,7 +1396,7 @@ SETINDEXQ 4
 FALSE
 SETINDEXQ 1
 SETGLOB 4
-GETGLOB 13
+GETGLOB 15
 .loc ../contracts/SubscriptionsRoot.tsol, 0
 
 .macro subscriptionPlanCode
@@ -1401,7 +1408,7 @@ ISNULL
 IFREF {
 	CALL $c4_to_c7$
 }
-.loc ../contracts/SubscriptionsRoot.tsol, 223
+.loc ../contracts/SubscriptionsRoot.tsol, 232
 LDU 32
 GETGLOB 4
 ROT
@@ -1464,7 +1471,7 @@ IFREF {
 THROW 0
 
 .macro subscriptionPlanCode_d5507a31_internal_macro
-.loc ../contracts/SubscriptionsRoot.tsol, 224
+.loc ../contracts/SubscriptionsRoot.tsol, 233
 GETGLOB 4
 PUSHINT 0
 SETINDEXQ 2
@@ -1473,7 +1480,7 @@ SETINDEXQ 4
 FALSE
 SETINDEXQ 1
 SETGLOB 4
-GETGLOB 14
+GETGLOB 16
 .loc ../contracts/SubscriptionsRoot.tsol, 0
 
 .globl	_reserve_413ab4a8_internal
@@ -1481,7 +1488,7 @@ GETGLOB 14
 CALL $_reserve_413ab4a8_internal_macro$
 
 .macro _reserve_413ab4a8_internal_macro
-.loc ../contracts/SubscriptionsRoot.tsol, 228
+.loc ../contracts/SubscriptionsRoot.tsol, 237
 GETPARAM 7
 FIRST
 DEPTH
@@ -1500,7 +1507,7 @@ MAX
 CALL $_targetBalance_81a00f03_internal_macro$
 
 .macro _targetBalance_81a00f03_internal_macro
-.loc ../contracts/SubscriptionsRoot.tsol, 232
+.loc ../contracts/SubscriptionsRoot.tsol, 241
 PUSHINT 1000000000
 .loc ../contracts/SubscriptionsRoot.tsol, 0
 
@@ -1511,7 +1518,15 @@ LDU 256 ; pubkey c4
 LDU 64 ; pubkey timestamp c4
 LDU 1 ; ctor flag
 NIP
+LDU 256
 LDREF
+ENDS
+CTOS
+LDMSGADDR
+LDREF
+LDREF
+ENDS
+CTOS
 LDMSGADDR
 LDREF
 ENDS
@@ -1522,6 +1537,8 @@ LDREF
 LDU 32
 LDU 32
 ENDS
+SETGLOB 18
+SETGLOB 17
 SETGLOB 16
 SETGLOB 15
 SETGLOB 14
@@ -1545,14 +1562,33 @@ PUSHCONT {
 	PUSHINT 1
 	OVER
 	PUSHINT 64
+	DICTUGET
+	ZEROSWAPIFNOT
+	PUSHCONT {
+		PLDU 256
+	}
+	IF
+	PUSHINT 2
+	PUSH S2
+	PUSHINT 64
+	DICTUGET
+	PUSHCONT {
+		PUSHREFSLICE {
+			.blob x8000000000000000000000000000000000000000000000000000000000000000001_
+		}
+	}
+	IFNOT
+	PUSHINT 3
+	PUSH S3
+	PUSHINT 64
 	DICTUGETREF
 	PUSHCONT {
 		PUSHREF {
 		}
 	}
 	IFNOT
-	PUSHINT 2
-	PUSH S2
+	PUSHINT 4
+	PUSH S4
 	PUSHINT 64
 	DICTUGET
 	PUSHCONT {
@@ -1569,6 +1605,8 @@ PUSHCONT {
 	DUP
 	PUSHINT 0
 	DUP
+	SETGLOB 18
+	SETGLOB 17
 	SETGLOB 16
 	SETGLOB 15
 	SETGLOB 14
@@ -1589,6 +1627,8 @@ IFREFELSE {
 }
 
 .macro c7_to_c4
+GETGLOB 18
+GETGLOB 17
 GETGLOB 16
 GETGLOB 15
 GETGLOB 14
@@ -1602,7 +1642,13 @@ NEWC
 STU 256
 STU 64
 STONE
+STU 256
+ROLLREV 8
+NEWC
+STSLICE
 STREF
+ROLLREV 6
+NEWC
 STSLICE
 ROLLREV 5
 NEWC
@@ -1611,6 +1657,8 @@ STREF
 STREF
 STU 32
 STU 32
+STBREFR
+STBREFR
 STBREFR
 ENDC
 POPROOT
@@ -1767,7 +1815,7 @@ IFJMPREF {
 	}
 }
 DUP
-PUSHINT 805581008
+PUSHINT 776839371
 LEQ
 IFJMPREF {
 	DUP
@@ -1775,6 +1823,12 @@ IFJMPREF {
 	EQUAL
 	IFJMPREF {
 		CALL $requestUpgradeSubscriptionCode$
+	}
+	DUP
+	PUSHINT 527876250
+	EQUAL
+	IFJMPREF {
+		CALL $constructor$
 	}
 	DUP
 	PUSHINT 552322925
@@ -1788,17 +1842,17 @@ IFJMPREF {
 	IFJMPREF {
 		CALL $subscriptionPlanVersion$
 	}
+}
+DUP
+PUSHINT 1126254647
+LEQ
+IFJMPREF {
 	DUP
 	PUSHINT 805581008
 	EQUAL
 	IFJMPREF {
 		CALL $setSubscriptionCode$
 	}
-}
-DUP
-PUSHINT 1196840156
-LEQ
-IFJMPREF {
 	DUP
 	PUSHINT 911978585
 	EQUAL
@@ -1816,12 +1870,6 @@ IFJMPREF {
 	EQUAL
 	IFJMPREF {
 		CALL $requestUpgradeSubscriptionPlan$
-	}
-	DUP
-	PUSHINT 1196840156
-	EQUAL
-	IFJMPREF {
-		CALL $constructor$
 	}
 }
 DUP

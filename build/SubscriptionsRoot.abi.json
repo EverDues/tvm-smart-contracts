@@ -6,7 +6,9 @@
 		{
 			"name": "constructor",
 			"inputs": [
-				{"name":"remainingGasTo","type":"address"}
+				{"name":"remainingGasTo","type":"address"},
+				{"name":"subscriptionPlanCode","type":"cell"},
+				{"name":"subscriptionCode","type":"cell"}
 			],
 			"outputs": [
 			]
@@ -161,8 +163,10 @@
 		}
 	],
 	"data": [
-		{"key":1,"name":"platformCode_","type":"cell"},
-		{"key":2,"name":"rootOwner_","type":"address"}
+		{"key":1,"name":"randomNonce_","type":"uint256"},
+		{"key":2,"name":"deployer_","type":"address"},
+		{"key":3,"name":"platformCode_","type":"cell"},
+		{"key":4,"name":"rootOwner_","type":"address"}
 	],
 	"events": [
 	],
@@ -170,6 +174,8 @@
 		{"name":"_pubkey","type":"uint256"},
 		{"name":"_timestamp","type":"uint64"},
 		{"name":"_constructorFlag","type":"bool"},
+		{"name":"randomNonce_","type":"uint256"},
+		{"name":"deployer_","type":"address"},
 		{"name":"platformCode_","type":"cell"},
 		{"name":"rootOwner_","type":"address"},
 		{"name":"newOwner_","type":"address"},

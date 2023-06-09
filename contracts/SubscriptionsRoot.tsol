@@ -11,28 +11,37 @@ import "./interfaces/ISubscription.tsol";
 import "./interfaces/ISubscriptionPlan.tsol";
 
 contract SubscriptionsRoot {
+
+    uint256 static randomNonce_;
+    address static deployer_;
+    
     TvmCell static platformCode_;
     address static rootOwner_;
-
+    
     address newOwner_;
+
     TvmCell subscriptionCode_;
     TvmCell subscriptionPlanCode_;
+    
     uint32 subscriptionVersion_;
     uint32 subscriptionPlanVersion_;
 
-    constructor(address remainingGasTo) public {
+    constructor(address remainingGasTo, TvmCell subscriptionPlanCode, TvmCell subscriptionCode) public {
         if (msg.pubkey() != 0) {
-            require(msg.pubkey() == tvm.pubkey() && rootOwner_.value == 0, Errors.NOT_OWNER);
+            require(msg.pubkey() == tvm.pubkey() && deployer_.value == 0, Errors.NOT_OWNER);
             tvm.accept();
         } else {
             require(
-                (rootOwner_.value != 0 && msg.sender == rootOwner_) ||
-                    (rootOwner_.value == 0 && msg.sender == rootOwner_),
+                (rootOwner_.value != 0 && msg.sender == deployer_) ||
+                    (deployer_.value == 0 && msg.sender == rootOwner_),
                 Errors.NOT_OWNER
             );
         }
+        subscriptionPlanCode_ = subscriptionPlanCode;
+        subscriptionCode_ = subscriptionCode;
 
         tvm.rawReserve(_targetBalance(), 0);
+        
         remainingGasTo.transfer({ value: 0, flag: MsgFlag.ALL_NOT_RESERVED + MsgFlag.IGNORE_ERRORS, bounce: false });
     }
 
