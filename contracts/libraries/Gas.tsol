@@ -1,12 +1,9 @@
 pragma ever-solidity ^0.62.0;
 
 library Gas {
-
-    uint128 constant ROOT_INITIAL_BALANCE                   = 1 ever;
-    uint128 constant SUBSCRIPTION_PLAN_INITIAL_BALANCE      = 1 ever;
-    uint128 constant SUBSCRIPTION_INITIAL_BALANCE           = 1 ever;
-
-    uint128 constant DEPLOY_EMPTY_WALLET_VALUE              = 0.5 ever;
-    uint128 constant DEPLOY_EMPTY_WALLET_GRAMS              = 0.1 ever;
-
+    uint128 constant ROOT_INITIAL_BALANCE = 1 ever;
+    uint128 constant SUBSCRIPTION_PLAN_INITIAL_BALANCE = 1 ever;
+    uint128 constant SUBSCRIPTION_INITIAL_BALANCE = 1 ever;
+    uint128 constant DEPLOY_EMPTY_WALLET_VALUE = 0.5 ever;
+    uint128 constant DEPLOY_EMPTY_WALLET_GRAMS = 0.1 ever;
 }

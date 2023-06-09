@@ -4,50 +4,36 @@ pragma AbiHeader time;
 pragma AbiHeader pubkey;
 
 contract Platform {
-	address static root;
-	uint8 static type_id;
-	TvmCell static platform_params;
+    address static root;
+    uint8 static type_id;
+    TvmCell static platform_params;
 
-	constructor(
-		TvmCell code,
-		TvmCell contract_params,
-		uint32 version,
-		address send_gas_to
-	) public {
+    constructor(TvmCell code, TvmCell contract_params, uint32 version, address send_gas_to) public {
         if (msg.sender == root) {
             _initialize(code, contract_params, version, send_gas_to);
         } else {
             selfdestruct(send_gas_to);
         }
-	}
+    }
 
-	function _initialize(
-		TvmCell code,
-		TvmCell contract_params,
-		uint32 version,
-		address send_gas_to
-	) private {
-		require(
-			msg.sender == root,
-			1000
-		);
-		TvmCell data = abi.encode(
-			root,
-			send_gas_to,
-			uint32(0),
-			version,
-			type_id,
-			tvm.code(),
-			platform_params,
-			contract_params,
-			code
-		);
+    function _initialize(TvmCell code, TvmCell contract_params, uint32 version, address send_gas_to) private {
+        require(msg.sender == root, 1000);
+        TvmCell data = abi.encode(
+            root,
+            send_gas_to,
+            uint32(0),
+            version,
+            type_id,
+            tvm.code(),
+            platform_params,
+            contract_params
+        );
 
-		tvm.setcode(code);
-		tvm.setCurrentCode(code);
+        tvm.setcode(code);
+        tvm.setCurrentCode(code);
 
-		onCodeUpgrade(data);
-	}
+        onCodeUpgrade(data);
+    }
 
-	function onCodeUpgrade(TvmCell data) private {}
+    function onCodeUpgrade(TvmCell data) private {}
 }

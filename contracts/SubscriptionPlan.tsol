@@ -10,13 +10,12 @@ import "./Platform.tsol";
 import "./interfaces/ISubscription.tsol";
 import "./interfaces/IRoot.tsol";
 
-
 contract SubscriptionPlan {
     address root;
-	TvmCell platform_code;
-	TvmCell _platform_params;
-	uint32 current_version;
-	uint8 type_id;
+    TvmCell platform_code;
+    TvmCell _platform_params;
+    uint32 current_version;
+    uint8 type_id;
 
     TvmCell subscriptionCode;
     uint32 subscriptionVersion;
@@ -25,158 +24,101 @@ contract SubscriptionPlan {
     uint32 _period;
     uint128 _amount;
 
-    uint32 subscriberNumber; 
+    uint32 subscriberNumber;
+
+    constructor() public {
+        revert();
+    }
 
     modifier onlyRoot() {
-         require(root.value != 0 && root == msg.sender, Errors.NOT_OWNER);
+        require(root.value != 0 && root == msg.sender, Errors.NOT_OWNER);
         _;
     }
     modifier onlyOwner() {
-         require(_owner.value != 0 && _owner == msg.sender, Errors.NOT_OWNER);
+        require(_owner.value != 0 && _owner == msg.sender, Errors.NOT_OWNER);
         _;
     }
-    constructor() public {
-		revert();
-	}
 
-	function acceptSubscriptionPlanCodeUpgrade(
-		TvmCell code,
-		uint32 version,
-		address send_gas_to,
-		TvmCell upgrade_params
-	) external  onlyRoot {
-		TvmCell contract_params;
-		TvmCell data = abi.encode(
-			root,
-			send_gas_to,
-			current_version,
-			version,
-			type_id,
-			platform_code,
-			_platform_params,
-			contract_params,
+    function acceptSubscriptionPlanCodeUpgrade(
+        TvmCell code,
+        uint32 version,
+        address send_gas_to,
+        TvmCell upgrade_params
+    ) external onlyRoot {
+        TvmCell contract_params;
+        TvmCell data = abi.encode(
+            root,
+            send_gas_to,
+            current_version,
+            version,
+            type_id,
+            platform_code,
+            _platform_params,
+            contract_params,
             upgrade_params
-		);
-		tvm.setcode(code);
-		tvm.setCurrentCode(code);
-		onCodeUpgrade(data);
-	}
+        );
+        tvm.setcode(code);
+        tvm.setCurrentCode(code);
+        onCodeUpgrade(data);
+    }
 
-	function onCodeUpgrade(TvmCell upgrade_data) private {
-		tvm.rawReserve(Gas.SUBSCRIPTION_PLAN_INITIAL_BALANCE, 0);
-		tvm.resetStorage();
-		address send_gas_to;
-		uint32 old_version;
-		TvmCell contract_params;
-		(
-			root,
-			send_gas_to,
-			old_version,
-			current_version,
-			type_id,
-			platform_code,
-			_platform_params,
-			contract_params
-		) = abi.decode(
-			upgrade_data,
-			(
-				address,
-				address,
-				uint32,
-				uint32,
-				uint8,
-				TvmCell,
-				TvmCell,
-				TvmCell
-			)
-		);
-		if (old_version == 0) {
+    function onCodeUpgrade(TvmCell upgrade_data) private {
+        tvm.rawReserve(_targetBalance(), 0);
+        tvm.resetStorage();
+        address send_gas_to;
+        uint32 old_version;
+        TvmCell contract_params;
+        (
+            root,
+            send_gas_to,
+            old_version,
+            current_version,
+            type_id,
+            platform_code,
+            _platform_params,
+            contract_params
+        ) = abi.decode(upgrade_data, (address, address, uint32, uint32, uint8, TvmCell, TvmCell, TvmCell));
+        if (old_version == 0) {
             (subscriptionCode, subscriptionVersion) = abi.decode(contract_params, (TvmCell, uint32));
             (_owner, _amount, _period, _tip3_root) = abi.decode(_platform_params, (address, uint128, uint32, address));
-		} else if (old_version > 0) {
+        } else if (old_version > 0) {
             (subscriptionCode, subscriptionVersion) = abi.decode(contract_params, (TvmCell, uint32));
             (_owner, _amount, _period, _tip3_root) = abi.decode(_platform_params, (address, uint128, uint32, address));
-			TvmCell upgrade_params;
-			if (!upgrade_params.toSlice().empty()) {
-				// parse upgrade data
-			}
-			send_gas_to.transfer({
-				value: 0,
-				bounce: false,
-				flag: MsgFlag.ALL_NOT_RESERVED + MsgFlag.IGNORE_ERRORS
-			});
-		}
-	}
-
-    function _deploySubscription(TvmCell initData, uint128 deploySubscriptionValue,  address owner, address recipient, uint128 amount, uint32 period, TvmCell payload, address remainingGasTo)
-        internal
-        view
-        returns (address)
-    {
-       TvmCell subscriptionParams = abi.encode(owner, recipient, amount, period, payload);
-       address subscription = new Platform {
-            stateInit: initData,
-            value: deploySubscriptionValue,
-            wid: address(this).wid,
-            flag: MsgFlag.SENDER_PAYS_FEES
-       }(subscriptionCode, subscriptionParams, subscriptionVersion, remainingGasTo);
-
-       return subscription;
-    }
-    function _reserve() internal pure returns (uint128) {
-        return math.max(address(this).balance - msg.value, _targetBalance());
+            TvmCell upgrade_params;
+            if (!upgrade_params.toSlice().empty()) {
+                // parse upgrade data if needed
+            }
+            send_gas_to.transfer({ value: 0, bounce: false, flag: MsgFlag.ALL_NOT_RESERVED + MsgFlag.IGNORE_ERRORS });
+        }
     }
 
-    function _targetBalance()  internal pure returns (uint128) {
-        return Gas.ROOT_INITIAL_BALANCE;
-    }
     function sendSurplusGas(address to) external view onlyOwner {
         tvm.rawReserve(_targetBalance(), 0);
-        to.transfer({
-            value: 0,
-            flag: MsgFlag.ALL_NOT_RESERVED + MsgFlag.IGNORE_ERRORS,
-            bounce: false
-        });
+        to.transfer({ value: 0, flag: MsgFlag.ALL_NOT_RESERVED + MsgFlag.IGNORE_ERRORS, bounce: false });
     }
-    function deploySubscription(TvmCell payload, uint128 deploySubscriptionValue)
-        public
-        responsible
-        returns (address subscription)
-    {
+
+    function deploySubscription(
+        TvmCell payload,
+        uint128 deploySubscriptionValue,
+        address remainingGasTo
+    ) external responsible returns (address subscription) {
         tvm.rawReserve(_reserve(), 0);
 
-        subscription = _deploySubscription(_buildSubscriptionInitData(subscriberNumber),  deploySubscriptionValue, msg.sender, _owner, _amount, _period, payload,  msg.sender);
+        subscription = _deploySubscription(
+            _buildSubscriptionInitData(subscriberNumber),
+            deploySubscriptionValue,
+            msg.sender,
+            _owner,
+            _amount,
+            _period,
+            payload,
+            remainingGasTo
+        );
         subscriberNumber++;
         return { value: 0, flag: MsgFlag.ALL_NOT_RESERVED, bounce: false } subscription;
     }
 
-    function _getExpectedSubscriptionAddress(uint32 number) internal view returns (address) {
-        return address(tvm.hash(_buildSubscriptionInitData(number)));
-    }
-
-    function _buildSubscriptionInitData(uint32 number)  internal view returns (TvmCell) {
-        TvmCell platform_params = abi.encode(number);
-        return tvm.buildStateInit({
-            contr: Platform,
-            varInit: {
-                root: address(this),
-                type_id: 1,
-                platform_params: platform_params
-            },
-            pubkey: 0,
-            code: platform_code
-        });
-    }
-
-    function requestUpgradeSubscription(
-        uint32 number,
-        uint32 currentVersion,
-        address remainingGasTo
-    )
-        
-        external
-        view
-    {
+    function requestUpgradeSubscription(uint32 number, uint32 currentVersion, address remainingGasTo) external view {
         require(msg.sender == _getExpectedSubscriptionAddress(number), Errors.SENDER_IS_NOT_VALID);
 
         tvm.rawReserve(_reserve(), 0);
@@ -188,56 +130,105 @@ contract SubscriptionPlan {
                 value: 0,
                 flag: MsgFlag.ALL_NOT_RESERVED,
                 bounce: false
-            }(
-                subscriptionCode,
-                subscriptionVersion,
-                remainingGasTo,
-                upgrade_data
-            );
+            }(subscriptionCode, subscriptionVersion, remainingGasTo, upgrade_data);
         }
-    }    
-	function requestSubscriptionCodeUpdate(address remainingGasTo) external view {
-        tvm.rawReserve(_reserve(), 0);
-        IRoot(root).requestUpgradeSubscriptionCode{
-            value: 0, flag: MsgFlag.ALL_NOT_RESERVED, bounce: false 
-        }(subscriptionVersion,_owner, _tip3_root,_amount,_period,remainingGasTo);
     }
 
-    function acceptSubscriptionCodeUpgrade(TvmCell code, uint32 version, address remainingGasTo) external onlyRoot { 
+    function requestSubscriptionCodeUpdate(address remainingGasTo) external view onlyOwner {
+        tvm.rawReserve(_reserve(), 0);
+        IRoot(root).requestUpgradeSubscriptionCode{ value: 0, flag: MsgFlag.ALL_NOT_RESERVED, bounce: false }(
+            subscriptionVersion,
+            _owner,
+            _tip3_root,
+            _amount,
+            _period,
+            remainingGasTo
+        );
+    }
+
+    function acceptSubscriptionCodeUpgrade(TvmCell code, uint32 version, address remainingGasTo) external onlyRoot {
+        tvm.rawReserve(_targetBalance(), 0);
         subscriptionCode = code;
         subscriptionVersion = version;
-        remainingGasTo.transfer({
-                value: 0,
-                flag: MsgFlag.ALL_NOT_RESERVED + MsgFlag.IGNORE_ERRORS,
-                bounce: false
-            });
+        remainingGasTo.transfer({ value: 0, flag: MsgFlag.ALL_NOT_RESERVED + MsgFlag.IGNORE_ERRORS, bounce: false });
     }
 
     function requestSubscriptionPlanCodeUpdate(TvmCell upgrade_data, address remainingGasTo) external view onlyOwner {
         tvm.rawReserve(_reserve(), 0);
-        IRoot(root).requestUpgradeSubscriptionPlan{
-            value: 0, flag: MsgFlag.ALL_NOT_RESERVED, bounce: false 
-        }(subscriptionVersion,_owner, _tip3_root,_amount,_period,remainingGasTo, upgrade_data);
+        IRoot(root).requestUpgradeSubscriptionPlan{ value: 0, flag: MsgFlag.ALL_NOT_RESERVED, bounce: false }(
+            subscriptionVersion,
+            _owner,
+            _tip3_root,
+            _amount,
+            _period,
+            remainingGasTo,
+            upgrade_data
+        );
     }
 
-		function getSubscriptions() public view returns (address[]) {
-            address[] subscribers;
-            uint32 i;
-            repeat(subscriberNumber) {
-                subscribers.push(_getExpectedSubscriptionAddress(i));
-                i++;
-            }
-            return subscribers;
+    function executeSubscriptions(uint128 executeSubscriptionValue, address remainingGasTo) external view {
+        address[] subscribers = getSubscriptions();
+        for (address subs: subscribers) {
+            ISubscription(subs).executeSubscription{
+                value: executeSubscriptionValue,
+                flag: MsgFlag.SENDER_PAYS_FEES,
+                bounce: true
+            }();
         }
+        remainingGasTo.transfer({ value: 0, bounce: false, flag: MsgFlag.ALL_NOT_RESERVED + MsgFlag.IGNORE_ERRORS });
+    }
 
-        function executeSubscriptions(uint128 executeSubscriptionValue) external view {
-            address[] subscribers = getSubscriptions();
-            for (address subs : subscribers) {
-                ISubscription(subs).executeSubscription{
-                    value: executeSubscriptionValue,
-                    flag: MsgFlag.SENDER_PAYS_FEES,
-                    bounce: true
-                }();
-            }
+    function _deploySubscription(
+        TvmCell initData,
+        uint128 deploySubscriptionValue,
+        address owner,
+        address recipient,
+        uint128 amount,
+        uint32 period,
+        TvmCell payload,
+        address remainingGasTo
+    ) internal view returns (address) {
+        TvmCell subscriptionParams = abi.encode(owner, recipient, amount, period, payload);
+        address subscription = new Platform{
+            stateInit: initData,
+            value: deploySubscriptionValue,
+            wid: address(this).wid,
+            flag: MsgFlag.SENDER_PAYS_FEES
+        }(subscriptionCode, subscriptionParams, subscriptionVersion, remainingGasTo);
+
+        return subscription;
+    }
+
+    function _getExpectedSubscriptionAddress(uint32 number) internal view returns (address) {
+        return address(tvm.hash(_buildSubscriptionInitData(number)));
+    }
+
+    function _buildSubscriptionInitData(uint32 number) internal view returns (TvmCell) {
+        TvmCell platform_params = abi.encode(number);
+        return
+            tvm.buildStateInit({
+                contr: Platform,
+                varInit: { root: address(this), type_id: 1, platform_params: platform_params },
+                pubkey: 0,
+                code: platform_code
+            });
+    }
+
+    function getSubscriptions() public view returns (address[]) {
+        address[] subscribers;
+        uint32 i;
+        repeat (subscriberNumber) {
+            subscribers.push(_getExpectedSubscriptionAddress(i));
+            i++;
         }
+        return subscribers;
+    }
+
+    function _reserve() internal pure returns (uint128) {
+        return math.max(address(this).balance - msg.value, _targetBalance());
+    }
+
+    function _targetBalance() internal pure returns (uint128) {
+        return Gas.ROOT_INITIAL_BALANCE;
+    }
 }

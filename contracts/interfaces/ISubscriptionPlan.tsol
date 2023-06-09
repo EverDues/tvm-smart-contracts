@@ -1,7 +1,14 @@
 pragma ever-solidity ^0.62.0;
 
 interface ISubscriptionPlan {
-    function acceptSubscriptionPlanCodeUpgrade(TvmCell code, uint32 version, address remainingGasTo, TvmCell upgrade_data) external;
+    function acceptSubscriptionPlanCodeUpgrade(
+        TvmCell code,
+        uint32 version,
+        address remainingGasTo,
+        TvmCell upgrade_data
+    ) external;
+
     function acceptSubscriptionCodeUpgrade(TvmCell code, uint32 version, address remainingGasTo) external;
+
     function requestUpgradeSubscription(uint32 nonce, uint32 version, address remainingGasTo) external;
-}	
+}

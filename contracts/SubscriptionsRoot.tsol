@@ -2,6 +2,7 @@ pragma ever-solidity ^0.62.0;
 
 pragma AbiHeader expire;
 pragma AbiHeader pubkey;
+
 import "./libraries/MsgFlag.tsol";
 import "./libraries/Gas.tsol";
 import "./libraries/Errors.tsol";
@@ -12,83 +13,65 @@ import "./interfaces/ISubscriptionPlan.tsol";
 contract SubscriptionsRoot {
     TvmCell static platformCode_;
     address static rootOwner_;
+
     address newOwner_;
     TvmCell subscriptionCode_;
     TvmCell subscriptionPlanCode_;
     uint32 subscriptionVersion_;
     uint32 subscriptionPlanVersion_;
 
-    constructor() public {
+    constructor(address remainingGasTo) public {
+        if (msg.pubkey() != 0) {
+            require(msg.pubkey() == tvm.pubkey() && rootOwner_.value == 0, Errors.NOT_OWNER);
+            tvm.accept();
+        } else {
+            require(
+                (rootOwner_.value != 0 && msg.sender == rootOwner_) ||
+                    (rootOwner_.value == 0 && msg.sender == rootOwner_),
+                Errors.NOT_OWNER
+            );
+        }
+
         tvm.rawReserve(_targetBalance(), 0);
+        remainingGasTo.transfer({ value: 0, flag: MsgFlag.ALL_NOT_RESERVED + MsgFlag.IGNORE_ERRORS, bounce: false });
     }
 
-    function transferOwnership(
-            address newOwner,
-            address remainingGasTo
-        )
-            external
-            onlyRootOwner
-        {
-            tvm.rawReserve(_reserve(), 0);
-
-            newOwner_ = newOwner;
-            remainingGasTo.transfer({
-                value: 0,
-                flag: MsgFlag.ALL_NOT_RESERVED + MsgFlag.IGNORE_ERRORS,
-                bounce: false
-            });
+    modifier onlyOwner() {
+        require(rootOwner_.value != 0 && rootOwner_ == msg.sender, Errors.NOT_OWNER);
+        _;
     }
 
-    function acceptOwnership(
-            address remainingGasTo
-        )
-            external
-        {
-            require(msg.sender == newOwner_, 1000);
-            tvm.rawReserve(_reserve(), 0);
+    function transferOwnership(address newOwner, address remainingGasTo) external onlyOwner {
+        tvm.rawReserve(_reserve(), 0);
 
-            rootOwner_ = msg.sender;
-            delete newOwner_;
-            remainingGasTo.transfer({
-                value: 0,
-                flag: MsgFlag.ALL_NOT_RESERVED + MsgFlag.IGNORE_ERRORS,
-                bounce: false
-            });
+        newOwner_ = newOwner;
+        remainingGasTo.transfer({ value: 0, flag: MsgFlag.ALL_NOT_RESERVED + MsgFlag.IGNORE_ERRORS, bounce: false });
     }
 
-    function subscriptionVersion()  external view responsible returns (uint32) {
-        return { value: 0, flag: MsgFlag.REMAINING_GAS, bounce: false } subscriptionVersion_;
+    function acceptOwnership(address remainingGasTo) external {
+        require(msg.sender == newOwner_, 1000);
+        tvm.rawReserve(_reserve(), 0);
+
+        rootOwner_ = msg.sender;
+        delete newOwner_;
+        remainingGasTo.transfer({ value: 0, flag: MsgFlag.ALL_NOT_RESERVED + MsgFlag.IGNORE_ERRORS, bounce: false });
     }
 
-    function platformCode()  external view responsible returns (TvmCell) {
-        return { value: 0, flag: MsgFlag.REMAINING_GAS, bounce: false } platformCode_;
+    function sendSurplusGas(address to) external view onlyOwner {
+        tvm.rawReserve(_targetBalance(), 0);
+        to.transfer({ value: 0, flag: MsgFlag.ALL_NOT_RESERVED + MsgFlag.IGNORE_ERRORS, bounce: false });
     }
 
-
-    function subscriptionCode()  external view responsible returns (TvmCell) {
-        return { value: 0, flag: MsgFlag.REMAINING_GAS, bounce: false } subscriptionCode_;
-    }
-
-    function subscriptionPlanCode()  external view responsible returns (TvmCell) {
-        return { value: 0, flag: MsgFlag.REMAINING_GAS, bounce: false } subscriptionPlanCode_;
-    }
-       
-    function setSubscriptionCode(TvmCell code)  external onlyRootOwner {
+    function setSubscriptionCode(TvmCell code) external onlyOwner {
         tvm.rawReserve(_targetBalance(), 0);
         subscriptionCode_ = code;
         subscriptionVersion_++;
     }
-    function setSubscriptionPlanCode(TvmCell code)  external onlyRootOwner {
+
+    function setSubscriptionPlanCode(TvmCell code) external onlyOwner {
         tvm.rawReserve(_targetBalance(), 0);
         subscriptionPlanCode_ = code;
         subscriptionPlanVersion_++;
-    }
-    function rootOwner()  external view responsible returns (address) {
-        return { value: 0, flag: MsgFlag.REMAINING_GAS, bounce: false } rootOwner_;
-    }
-
-    function subscriptionPlanVersion()  external view responsible returns (uint32) {
-        return { value: 0, flag: MsgFlag.REMAINING_GAS, bounce: false } subscriptionPlanVersion_;
     }
 
     function requestUpgradeSubscriptionCode(
@@ -98,12 +81,11 @@ contract SubscriptionsRoot {
         uint128 amount,
         uint32 period,
         address remainingGasTo
-    )
-        
-        external
-        view
-    {
-        require(msg.sender == _getExpectedSubscriptionPlanAddress(owner,amount,period, tip3_root), Errors.SENDER_IS_NOT_VALID);
+    ) external view {
+        require(
+            msg.sender == _getExpectedSubscriptionPlanAddress(owner, amount, period, tip3_root),
+            Errors.SENDER_IS_NOT_VALID
+        );
 
         tvm.rawReserve(_reserve(), 0);
 
@@ -114,16 +96,8 @@ contract SubscriptionsRoot {
                 value: 0,
                 flag: MsgFlag.ALL_NOT_RESERVED,
                 bounce: false
-            }(
-                subscriptionCode_,
-                subscriptionVersion_,
-                remainingGasTo
-            );
+            }(subscriptionCode_, subscriptionVersion_, remainingGasTo);
         }
-    }
-
-    function _targetBalance()  internal pure returns (uint128) {
-        return Gas.ROOT_INITIAL_BALANCE;
     }
 
     function requestUpgradeSubscriptionPlan(
@@ -134,11 +108,11 @@ contract SubscriptionsRoot {
         uint32 period,
         address remainingGasTo,
         TvmCell upgrade_params
-    )
-        external
-        view
-    {
-        require(msg.sender == _getExpectedSubscriptionPlanAddress(owner,amount,period, tip3_root), Errors.SENDER_IS_NOT_VALID);
+    ) external view {
+        require(
+            msg.sender == _getExpectedSubscriptionPlanAddress(owner, amount, period, tip3_root),
+            Errors.SENDER_IS_NOT_VALID
+        );
 
         tvm.rawReserve(_reserve(), 0);
 
@@ -149,88 +123,112 @@ contract SubscriptionsRoot {
                 value: 0,
                 flag: MsgFlag.ALL_NOT_RESERVED,
                 bounce: false
-            }(
-                subscriptionCode_,
-                subscriptionVersion_,
-                remainingGasTo,
-                upgrade_params
-            );
+            }(subscriptionCode_, subscriptionVersion_, remainingGasTo, upgrade_params);
         }
     }
-    function subscriptionPlanOf(address owner,
+
+    function subscriptionPlanOf(
+        address owner,
         uint128 amount,
-        uint32 period, address tip3_root)
-        public
-        view
-        responsible
-        returns (address)
-    {
-        return { value: 0, flag: MsgFlag.REMAINING_GAS, bounce: false } _getExpectedSubscriptionPlanAddress(owner,amount,period,tip3_root);
+        uint32 period,
+        address tip3_root
+    ) public view responsible returns (address) {
+        return
+            { value: 0, flag: MsgFlag.REMAINING_GAS, bounce: false } _getExpectedSubscriptionPlanAddress(
+                owner,
+                amount,
+                period,
+                tip3_root
+            );
     }
 
-    function deploySubscriptionPlan(uint128 amount,
-        uint32 period, address tip3_root, uint128 deploySubscriptionPlanValue)
-        public
-        view
-        responsible
-        returns (address subscriptionPlan)
-    {
+    function deploySubscriptionPlan(
+        uint128 amount,
+        uint32 period,
+        address tip3_root,
+        uint128 deploySubscriptionPlanValue
+    ) external view responsible returns (address subscriptionPlan) {
         tvm.rawReserve(_reserve(), 0);
 
-        subscriptionPlan = _deploySubscriptionPlan(_buildSubscriptionPlanInitData(msg.sender, amount, period, tip3_root), deploySubscriptionPlanValue, msg.sender);
+        subscriptionPlan = _deploySubscriptionPlan(
+            _buildSubscriptionPlanInitData(msg.sender, amount, period, tip3_root),
+            deploySubscriptionPlanValue,
+            msg.sender
+        );
 
         return { value: 0, flag: MsgFlag.ALL_NOT_RESERVED, bounce: false } subscriptionPlan;
+    }
+
+    function _getExpectedSubscriptionPlanAddress(
+        address owner,
+        uint128 amount,
+        uint32 period,
+        address tip3_root
+    ) internal view returns (address) {
+        return address(tvm.hash(_buildSubscriptionPlanInitData(owner, amount, period, tip3_root)));
+    }
+
+    function _buildSubscriptionPlanInitData(
+        address owner,
+        uint128 amount,
+        uint32 period,
+        address tip3_root
+    ) internal view returns (TvmCell) {
+        TvmCell platform_params = abi.encode(owner, amount, period, tip3_root);
+        return
+            tvm.buildStateInit({
+                contr: Platform,
+                varInit: { root: address(this), type_id: 0, platform_params: platform_params },
+                pubkey: 0,
+                code: platformCode_
+            });
+    }
+
+    function _deploySubscriptionPlan(
+        TvmCell initData,
+        uint128 deploySubscriptionPlanValue,
+        address remainingGasTo
+    ) internal view returns (address) {
+        TvmCell subscriptionParams = abi.encode(subscriptionCode_, subscriptionVersion_);
+        address subscriptionPlan = new Platform{
+            stateInit: initData,
+            value: deploySubscriptionPlanValue,
+            wid: address(this).wid,
+            flag: MsgFlag.SENDER_PAYS_FEES
+        }(subscriptionPlanCode_, subscriptionParams, subscriptionPlanVersion_, remainingGasTo);
+
+        return subscriptionPlan;
+    }
+
+    function rootOwner() external view responsible returns (address) {
+        return { value: 0, flag: MsgFlag.REMAINING_GAS, bounce: false } rootOwner_;
+    }
+
+    function subscriptionPlanVersion() external view responsible returns (uint32) {
+        return { value: 0, flag: MsgFlag.REMAINING_GAS, bounce: false } subscriptionPlanVersion_;
+    }
+
+    function subscriptionVersion() external view responsible returns (uint32) {
+        return { value: 0, flag: MsgFlag.REMAINING_GAS, bounce: false } subscriptionVersion_;
+    }
+
+    function platformCode() external view responsible returns (TvmCell) {
+        return { value: 0, flag: MsgFlag.REMAINING_GAS, bounce: false } platformCode_;
+    }
+
+    function subscriptionCode() external view responsible returns (TvmCell) {
+        return { value: 0, flag: MsgFlag.REMAINING_GAS, bounce: false } subscriptionCode_;
+    }
+
+    function subscriptionPlanCode() external view responsible returns (TvmCell) {
+        return { value: 0, flag: MsgFlag.REMAINING_GAS, bounce: false } subscriptionPlanCode_;
     }
 
     function _reserve() internal pure returns (uint128) {
         return math.max(address(this).balance - msg.value, _targetBalance());
     }
 
-    function sendSurplusGas(address to) external view onlyRootOwner {
-        tvm.rawReserve(_targetBalance(), 0);
-        to.transfer({
-            value: 0,
-            flag: MsgFlag.ALL_NOT_RESERVED + MsgFlag.IGNORE_ERRORS,
-            bounce: false
-        });
-    }
-
-    function _getExpectedSubscriptionPlanAddress(address owner,uint128 amount,
-        uint32 period, address tip3_root) internal view returns (address) {
-        return address(tvm.hash(_buildSubscriptionPlanInitData( owner, amount,
-         period, tip3_root)));
-    }
-    function _buildSubscriptionPlanInitData(address owner, uint128 amount,
-        uint32 period, address tip3_root)  internal view returns (TvmCell) {
-        TvmCell platform_params = abi.encode(owner, amount, period, tip3_root);
-        return tvm.buildStateInit({
-            contr: Platform,
-            varInit: {
-                root: address(this),
-                type_id: 0,
-                platform_params: platform_params
-            },
-            pubkey: 0,
-            code: platformCode_
-        });
-    }
-    function _deploySubscriptionPlan(TvmCell initData, uint128 deploySubscriptionPlanValue, address remainingGasTo)
-        internal
-        view
-        returns (address)
-    {
-       TvmCell subscriptionParams = abi.encode(subscriptionCode_,subscriptionVersion_);
-       address subscriptionPlan = new Platform {
-            stateInit: initData,
-            value: deploySubscriptionPlanValue,
-            wid: address(this).wid,
-            flag: MsgFlag.SENDER_PAYS_FEES
-       }(subscriptionPlanCode_, subscriptionParams, subscriptionPlanVersion_, remainingGasTo);
-
-       return subscriptionPlan;
-    }
-    modifier onlyRootOwner() {
-        require(rootOwner_.value != 0 && rootOwner_ == msg.sender, Errors.NOT_OWNER);
-        _;
+    function _targetBalance() internal pure returns (uint128) {
+        return Gas.ROOT_INITIAL_BALANCE;
     }
 }
