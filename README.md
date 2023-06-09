@@ -15,9 +15,9 @@ EverDues TVM Smart Contracts sample is a repository that provides a collection o
 
 ## Introduction
 
-The EverDues TVM Smart Contract Project is developed to cater to the needs of the WE3 Subscription system, providing essential functionalities for managing subscriptions, payments, and associated operations. Leveraging the capabilities of the VENOM blockchain's TVM, this project offers a solid foundation for the subscription infrastructure of the WE3 platform.
+The EverDues TVM Smart Contract Project is developed to cater to the needs of the web3 Subscription system, providing essential functionalities for managing subscriptions, payments, and associated operations. Leveraging the capabilities of the VENOM blockchain's TVM, this project offers a solid foundation for the subscription infrastructure of the web3 platform.
 
-By utilizing the EverDues TVM Smart Contract Project, the WE3 Subscription system can ensure secure, transparent, and reliable subscription management, enabling smooth user experiences and efficient subscription processes.
+By utilizing the EverDues TVM Smart Contract Project, the web3 Subscription system can ensure secure, transparent, and reliable subscription management, enabling smooth user experiences and efficient subscription processes.
 
 EverDues TVM Smart Contract Project works on top of a new implementation of the TIP3 standard proposed by our team.
 
@@ -50,15 +50,15 @@ To get started with TVM Smart Contracts and deploy the sample, follow these step
 
 ## Usage
 
-The EverDues TVM Smart Contract Project offers a range of functionalities and components tailored for the WE3 Subscription infrastructure. Here are some key components and their usage:
+The EverDues TVM Smart Contract Project offers a range of functionalities and components tailored for the web3 Subscription infrastructure. Here are some key components and their usage:
 
 - **Subscription Management Contracts**: These contracts provide essential functions for managing subscriptions, such as creating new subscriptions, modifying existing ones, canceling subscriptions, and handling subscription renewals.
 
 - **Payment Handling Contracts**: The project includes contracts that facilitate secure and transparent payment transactions for subscription fees, ensuring reliable P2P payment processing between subscribers and service providers.
 
-- **Customization and Configuration**: The smart contracts in this project offer configurable parameters that allow customization of subscription plans, pricing models, and other subscription-related settings. This flexibility enables the WE3 Subscription system to adapt to various business requirements.
+- **Customization and Configuration**: The smart contracts in this project offer configurable parameters that allow customization of subscription plans, pricing models, and other subscription-related settings. This flexibility enables the web3 Subscription system to adapt to various business requirements.
 
-- **Integration with WE3 Platform**: The EverDues TVM Smart Contract Project is designed to seamlessly integrate with the wider WE3 platform. Other developers can build a comprehensive subscription infrastructure within the WE3 ecosystem.
+- **Integration with web3 Platform**: The EverDues TVM Smart Contract Project is designed to seamlessly integrate with the wider web3 platform. Other developers can build a comprehensive subscription infrastructure within the web3 ecosystem.
 
 ## Contributing
 
