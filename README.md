@@ -24,6 +24,7 @@ EverDues TVM Smart Contract Project works on top of a new implementation of the 
 
 [TIP3 implementation](https://github.com/EverDues/tip3/commits/master)
 
+[VEP-33:Allowance Token Interface ](https://docs.venom.foundation/standards/VEP/vep-33/)
 
 
 To get started with TVM Smart Contracts and deploy the sample, follow these steps:
@@ -107,7 +108,3 @@ Overall, this system is a comprehensive solution for managing subscriptions usin
 ## Contributing
 
 Contributions to the EverDues TVM Smart Contracts repository are welcome! If you have any improvements, bug fixes, or new contracts to propose, please open an issue or submit a pull request. Make sure to follow the contribution guidelines outlined in the repository.
-
-## License
-
-The EverDues TVM Smart Contracts repository is open-source and available under the [MIT License](https://github.com/EverDues/tvm-smart-contracts/blob/main/LICENSE). Feel
