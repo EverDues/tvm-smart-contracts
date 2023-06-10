@@ -12,7 +12,6 @@ EverDues TVM Smart Contracts sample is a repository that provides a collection o
 - [Usage](#usage)
 - [Technical implementation](#technical-implementation)
 - [Contributing](#contributing)
-- [License](#license)
 
 ## Introduction
 
